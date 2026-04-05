@@ -4,7 +4,6 @@ A full-stack Next.js application for tracking gadgets and managing borrowing rec
 
 ## Features
 
-
 - **User Authentication**: Secure sign up and sign in with NextAuth.js
 - **Inventory Management**: Add, edit, and delete items from your inventory
 - **Borrow Tracking**: Record when items are borrowed and when they're due back
