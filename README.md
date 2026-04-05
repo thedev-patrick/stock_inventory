@@ -13,6 +13,7 @@ A full-stack Next.js application for tracking gadgets and managing borrowing rec
 
 ## Tech Stack
 
+
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
