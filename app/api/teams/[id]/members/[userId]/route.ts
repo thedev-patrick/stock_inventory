@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 interface RouteParams {
-  params: { id: string; userId: string }
+  params: Promise<{ id: string; userId: string }>
 }
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
