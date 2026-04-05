@@ -1,0 +1,824 @@
+
+> stock_inventory@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.137:3000
+- Environments: .env.local, .env
+✓ Ready in 272ms
+
+ GET /auth/signin 200 in 425ms (next.js: 313ms, application-code: 112ms)
+ GET /dashboard 200 in 122ms (next.js: 21ms, application-code: 101ms)
+ GET /dashboard 200 in 46ms (next.js: 3ms, application-code: 43ms)
+ GET /dashboard 200 in 36ms (next.js: 7ms, application-code: 29ms)
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:734:15)\n' +
+    '    at decrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:757:20)\n' +
+    '    at flattenedDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:2254:52)\n' +
+    '    at async compactDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:2308:23)\n' +
+    '    at async jwtDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:3770:23)\n' +
+    '    at async Object.decode (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:725:25)\n' +
+    '    at async Object.session (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:2038:34)\n' +
+    '    at async AuthHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3184:37)\n' +
+    '    at async NextAuthRouteHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3501:30)\n' +
+    '    at async NextAuth._args$ (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3536:24)\n' +
+    '    at async AppRouteRouteModule.do (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40115)\n' +
+    '    at async AppRouteRouteModule.handle (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47321)\n' +
+    '    at async responseGenerator (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13635:38)\n' +
+    '    at async AppRouteRouteModule.handleResponse (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)\n' +
+    '    at async handleResponse (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13698:32)\n' +
+    '    at async Module.handler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13752:13)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1454:9)\n' +
+    '    at async DevServer.renderPageComponent (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1506:24)\n' +
+    '    at async DevServer.renderToResponseImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1556:32)\n' +
+    '    at async DevServer.pipeImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1043:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:934:17)\n' +
+    '    at async /Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:394:20\n' +
+    '    at async Span.traceAsyncFn (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/trace/trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:390:24)\n' +
+    '    at async invokeRender (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:266:21)\n' +
+    '    at async handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:465:24)\n' +
+    '    at async requestHandlerImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:514:13)\n' +
+    '    at async Server.requestListener (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/start-server.js:225:13)',
+  name: 'JWEDecryptionFailed'
+}
+ GET /api/auth/session 200 in 579ms (next.js: 560ms, application-code: 19ms)
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:734:15)\n' +
+    '    at decrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:757:20)\n' +
+    '    at flattenedDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:2254:52)\n' +
+    '    at async compactDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:2308:23)\n' +
+    '    at async jwtDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:3770:23)\n' +
+    '    at async Object.decode (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:725:25)\n' +
+    '    at async Object.session (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:2038:34)\n' +
+    '    at async AuthHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3184:37)\n' +
+    '    at async NextAuthRouteHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3501:30)\n' +
+    '    at async NextAuth._args$ (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3536:24)\n' +
+    '    at async AppRouteRouteModule.do (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40115)\n' +
+    '    at async AppRouteRouteModule.handle (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47321)\n' +
+    '    at async responseGenerator (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13635:38)\n' +
+    '    at async AppRouteRouteModule.handleResponse (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)\n' +
+    '    at async handleResponse (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13698:32)\n' +
+    '    at async Module.handler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13752:13)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1454:9)\n' +
+    '    at async DevServer.renderPageComponent (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1506:24)\n' +
+    '    at async DevServer.renderToResponseImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1556:32)\n' +
+    '    at async DevServer.pipeImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1043:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:934:17)\n' +
+    '    at async /Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:394:20\n' +
+    '    at async Span.traceAsyncFn (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/trace/trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:390:24)\n' +
+    '    at async invokeRender (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:266:21)\n' +
+    '    at async handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:465:24)\n' +
+    '    at async requestHandlerImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:514:13)\n' +
+    '    at async Server.requestListener (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/start-server.js:225:13)',
+  name: 'JWEDecryptionFailed'
+}
+ GET /api/auth/session 200 in 405ms (next.js: 385ms, application-code: 20ms)
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:734:15)\n' +
+    '    at decrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:757:20)\n' +
+    '    at flattenedDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:2254:52)\n' +
+    '    at async compactDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:2308:23)\n' +
+    '    at async jwtDecrypt (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_jose_dist_node_cjs_0wmi9~u._.js:3770:23)\n' +
+    '    at async Object.decode (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:725:25)\n' +
+    '    at async Object.session (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:2038:34)\n' +
+    '    at async AuthHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3184:37)\n' +
+    '    at async NextAuthRouteHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3501:30)\n' +
+    '    at async NextAuth._args$ (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3536:24)\n' +
+    '    at async AppRouteRouteModule.do (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40115)\n' +
+    '    at async AppRouteRouteModule.handle (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47321)\n' +
+    '    at async responseGenerator (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13635:38)\n' +
+    '    at async AppRouteRouteModule.handleResponse (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)\n' +
+    '    at async handleResponse (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13698:32)\n' +
+    '    at async Module.handler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13752:13)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1454:9)\n' +
+    '    at async DevServer.renderPageComponent (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1506:24)\n' +
+    '    at async DevServer.renderToResponseImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1556:32)\n' +
+    '    at async DevServer.pipeImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1043:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:934:17)\n' +
+    '    at async /Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:394:20\n' +
+    '    at async Span.traceAsyncFn (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/trace/trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:390:24)\n' +
+    '    at async invokeRender (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:266:21)\n' +
+    '    at async handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:465:24)\n' +
+    '    at async requestHandlerImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:514:13)\n' +
+    '    at async Server.requestListener (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/start-server.js:225:13)',
+  name: 'JWEDecryptionFailed'
+}
+ GET /api/auth/session 200 in 120ms (next.js: 99ms, application-code: 22ms)
+ GET /api/auth/session 200 in 25ms (next.js: 11ms, application-code: 14ms)
+ GET /api/auth/session 200 in 26ms (next.js: 13ms, application-code: 13ms)
+ GET /auth/signin 200 in 27ms (next.js: 1594µs, application-code: 25ms)
+ GET /auth/signin 200 in 13ms (next.js: 978µs, application-code: 12ms)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117171)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118750)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:123428)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:123428)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:123428)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:123428)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121987)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:123428)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121630)
+    at c_ (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154382)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at <unknown> (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1890:55)
+    at lb (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:103375)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117479)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118750)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121630)
+    at c_ (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154382)
+    at <unknown> (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154069)
+    at cy (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154085)
+    at cr (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:137223)
+    at ct (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:135459)
+    at cq (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:160794)
+    at cU (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:159007)
+    at ck (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:156653)
+    at <unknown> (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154079)
+    at cy (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154085)
+    at cr (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:137223)
+    at ct (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:135459)
+    at cB (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:160673)
+    at MessagePort.N (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:224252)
+✓ Compiled in 198ms
+ GET /auth/signin 200 in 13ms (next.js: 3ms, application-code: 11ms)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Warning: Failed to re-render. We will retry on the next Fast Refresh event.
+Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 38ms
+ GET /auth/signin 200 in 68ms (next.js: 3ms, application-code: 66ms)
+[browser] Uncaught Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/auth/signin" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:{...}, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
++                       hidden={true}
+-                       hidden={null}
+-                       className="simulator-pre-loader simulator"
+-                       aria-label="Loading"
+-                       role="status"
+                      >
+                        <__next_metadata_boundary__>
++                         <Suspense name="Next.Metadata">
+                    ...
+                  ...
+
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at Suspense (<anonymous>)
+ GET /api/auth/session 200 in 11ms (next.js: 4ms, application-code: 7ms)
+ GET /api/auth/session 200 in 13ms (next.js: 8ms, application-code: 5ms)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117171)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117768)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118750)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:122176)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121184)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:122459)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:122086)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:119002)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:123428)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118876)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at <unknown> (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1890:55)
+    at lb (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:103375)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117479)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118750)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121630)
+    at c_ (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154382)
+    at <unknown> (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154069)
+    at cy (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154085)
+    at cr (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:137223)
+    at ct (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:135459)
+    at cq (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:160794)
+    at cU (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:159007)
+    at ck (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:156653)
+    at <unknown> (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154079)
+    at cy (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154085)
+    at cr (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:137223)
+    at ct (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:135459)
+    at cB (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:160673)
+    at MessagePort.N (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:224252)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117109)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117696)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117638)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117638)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117638)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117768)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117422)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117638)
+    at l7 (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:116531)
+    at se (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:117503)
+    at so (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:118750)
+    at si (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:121630)
+    at c_ (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154382)
+    at <unknown> (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154069)
+    at cy (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154085)
+    at cr (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:137223)
+    at ct (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:135459)
+    at cq (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:160794)
+    at cU (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:159007)
+    at ck (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:156653)
+    at <unknown> (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154079)
+    at cy (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:154085)
+    at cr (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:137223)
+    at ct (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:135459)
+    at cB (file:///Users/patrick/Desktop/stock_inventory/.next/dev/static/chunks/node_modules_next_dist_compiled_next-devtools_index_0553esy.js:1841:160673)
+ GET /api/auth/session 200 in 26ms (next.js: 11ms, application-code: 16ms)
+ GET /auth/signin 200 in 85ms (next.js: 2ms, application-code: 82ms)
+ GET /api/auth/session 200 in 7ms (next.js: 1436µs, application-code: 5ms)
+ GET /auth/signin 200 in 145ms (next.js: 59ms, application-code: 86ms)
+ GET /auth/signin 200 in 145ms (next.js: 90ms, application-code: 55ms)
+ GET /auth/signin 200 in 46ms (next.js: 2ms, application-code: 44ms)
+ GET /auth/signin 200 in 45ms (next.js: 17ms, application-code: 29ms)
+ GET /auth/signin 200 in 31ms (next.js: 10ms, application-code: 20ms)
+ GET /auth/signin 200 in 12ms (next.js: 1172µs, application-code: 11ms)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+    at div (<anonymous>)
+[browser] Uncaught Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+ GET /api/auth/providers 200 in 50ms (next.js: 39ms, application-code: 11ms)
+ GET /api/auth/csrf 200 in 9ms (next.js: 2ms, application-code: 7ms)
+🔐 Authorize attempt: admin@yopmail.com
+🔍 DATABASE_URL: file:./dev.db...
+📊 About to query database for user...
+💥 ERROR in authorize: Error [PrismaClientInitializationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:167
+
+  162     return null;
+  163 }
+  164 console.log("📊 About to query database for user...");
+→ 165 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "postgresql"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at <unknown> (lib/auth.ts:25:42)
+    at <unknown> (-->  schema.prisma:10)
+    at async Object.authorize (lib/auth.ts:25:24)
+  23 |
+  24 |           console.log("📊 About to query database for user...")
+> 25 |           const user = await prisma.user.findUnique({
+     |                                          ^
+  26 |             where: { email: credentials.email }
+  27 |           })
+  28 |           console.log("📊 Database query completed") {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+💥 Error stack: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:167
+
+  162     return null;
+  163 }
+  164 console.log("📊 About to query database for user...");
+→ 165 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "postgresql"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Object.authorize (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:34)
+    at async Object.callback (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:1600:20)
+    at async AuthHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3333:38)
+    at async NextAuthRouteHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3501:30)
+    at async NextAuth._args$ (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3536:24)
+    at async AppRouteRouteModule.do (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40115)
+    at async AppRouteRouteModule.handle (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47321)
+    at async responseGenerator (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13635:38)
+    at async AppRouteRouteModule.handleResponse (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)
+    at async handleResponse (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13698:32)
+    at async Module.handler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13752:13)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1454:9)
+    at async DevServer.renderPageComponent (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1506:24)
+    at async DevServer.renderToResponseImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1556:32)
+    at async DevServer.pipeImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1043:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/next-server.js:338:17)
+    at async DevServer.handleRequestImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:934:17)
+    at async /Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:394:20
+    at async Span.traceAsyncFn (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/trace/trace.js:164:20)
+    at async DevServer.handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:390:24)
+    at async invokeRender (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:266:21)
+    at async handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:465:24)
+    at async requestHandlerImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:514:13)
+    at async Server.requestListener (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/start-server.js:225:13)
+ POST /api/auth/callback/credentials 401 in 136ms (next.js: 1149µs, application-code: 135ms)
+ GET /api/auth/providers 200 in 19ms (next.js: 9ms, application-code: 10ms)
+ GET /api/auth/csrf 200 in 7ms (next.js: 2ms, application-code: 5ms)
+🔐 Authorize attempt: admin@example.com
+🔍 DATABASE_URL: file:./dev.db...
+📊 About to query database for user...
+💥 ERROR in authorize: Error [PrismaClientInitializationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:167
+
+  162     return null;
+  163 }
+  164 console.log("📊 About to query database for user...");
+→ 165 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "postgresql"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at <unknown> (lib/auth.ts:25:42)
+    at <unknown> (-->  schema.prisma:10)
+    at async Object.authorize (lib/auth.ts:25:24)
+  23 |
+  24 |           console.log("📊 About to query database for user...")
+> 25 |           const user = await prisma.user.findUnique({
+     |                                          ^
+  26 |             where: { email: credentials.email }
+  27 |           })
+  28 |           console.log("📊 Database query completed") {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+💥 Error stack: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:167
+
+  162     return null;
+  163 }
+  164 console.log("📊 About to query database for user...");
+→ 165 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "postgresql"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Object.authorize (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:34)
+    at async Object.callback (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:1600:20)
+    at async AuthHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3333:38)
+    at async NextAuthRouteHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3501:30)
+    at async NextAuth._args$ (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3536:24)
+    at async AppRouteRouteModule.do (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40115)
+    at async AppRouteRouteModule.handle (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47321)
+    at async responseGenerator (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13635:38)
+    at async AppRouteRouteModule.handleResponse (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)
+    at async handleResponse (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13698:32)
+    at async Module.handler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13752:13)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1454:9)
+    at async DevServer.renderPageComponent (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1506:24)
+    at async DevServer.renderToResponseImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1556:32)
+    at async DevServer.pipeImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1043:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/next-server.js:338:17)
+    at async DevServer.handleRequestImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:934:17)
+    at async /Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:394:20
+    at async Span.traceAsyncFn (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/trace/trace.js:164:20)
+    at async DevServer.handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:390:24)
+    at async invokeRender (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:266:21)
+    at async handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:465:24)
+    at async requestHandlerImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:514:13)
+    at async Server.requestListener (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/start-server.js:225:13)
+ POST /api/auth/callback/credentials 401 in 67ms (next.js: 1177µs, application-code: 65ms)
+ GET /api/auth/providers 200 in 19ms (next.js: 10ms, application-code: 9ms)
+ GET /api/auth/csrf 200 in 6ms (next.js: 1729µs, application-code: 4ms)
+🔐 Authorize attempt: admin@example.com
+🔍 DATABASE_URL: file:./dev.db...
+📊 About to query database for user...
+💥 ERROR in authorize: Error [PrismaClientInitializationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:167
+
+  162     return null;
+  163 }
+  164 console.log("📊 About to query database for user...");
+→ 165 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "postgresql"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at <unknown> (lib/auth.ts:25:42)
+    at <unknown> (-->  schema.prisma:10)
+    at async Object.authorize (lib/auth.ts:25:24)
+  23 |
+  24 |           console.log("📊 About to query database for user...")
+> 25 |           const user = await prisma.user.findUnique({
+     |                                          ^
+  26 |             where: { email: credentials.email }
+  27 |           })
+  28 |           console.log("📊 Database query completed") {
+  clientVersion: '5.22.0',
+  errorCode: undefined
+}
+💥 Error stack: PrismaClientInitializationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:167
+
+  162     return null;
+  163 }
+  164 console.log("📊 About to query database for user...");
+→ 165 const user = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+error: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.
+  -->  schema.prisma:10
+   | 
+ 9 |   provider = "postgresql"
+10 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:7615)
+    at $n.handleAndLogRequestError (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:6623)
+    at $n.request (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:121:6307)
+    at async l (/Users/patrick/Desktop/stock_inventory/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async Object.authorize (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/[root-of-the-server]__0k3kf._._.js:165:34)
+    at async Object.callback (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:1600:20)
+    at async AuthHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3333:38)
+    at async NextAuthRouteHandler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3501:30)
+    at async NextAuth._args$ (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next-auth_045ewy.._.js:3536:24)
+    at async AppRouteRouteModule.do (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:40115)
+    at async AppRouteRouteModule.handle (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:47321)
+    at async responseGenerator (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13635:38)
+    at async AppRouteRouteModule.handleResponse (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:227216)
+    at async handleResponse (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13698:32)
+    at async Module.handler (/Users/patrick/Desktop/stock_inventory/.next/dev/server/chunks/node_modules_next_0atedhr._.js:13752:13)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1454:9)
+    at async DevServer.renderPageComponent (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1506:24)
+    at async DevServer.renderToResponseImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1556:32)
+    at async DevServer.pipeImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:1043:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/next-server.js:338:17)
+    at async DevServer.handleRequestImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/base-server.js:934:17)
+    at async /Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:394:20
+    at async Span.traceAsyncFn (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/trace/trace.js:164:20)
+    at async DevServer.handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/dev/next-dev-server.js:390:24)
+    at async invokeRender (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:266:21)
+    at async handleRequest (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:465:24)
+    at async requestHandlerImpl (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/router-server.js:514:13)
+    at async Server.requestListener (/Users/patrick/Desktop/stock_inventory/node_modules/next/dist/server/lib/start-server.js:225:13)
+ POST /api/auth/callback/credentials 401 in 57ms (next.js: 1300µs, application-code: 56ms)
+[?25h
