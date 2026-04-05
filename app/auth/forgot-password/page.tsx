@@ -1,16 +1,13 @@
 "use client"
 
-import { signIn } from "next-auth/react"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Mail, Lock, LogIn } from "lucide-react"
+import { Mail, ArrowLeft } from "lucide-react"
 
-export default function SignIn() {
-  const router = useRouter()
+export default function ForgotPassword() {
   const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,18 +16,21 @@ export default function SignIn() {
     setLoading(true)
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
       })
 
-      if (result?.error) {
-        setError("Invalid email or password")
-      } else {
-        router.push("/dashboard")
-        router.refresh()
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || "Something went wrong")
+        setLoading(false)
+        return
       }
+
+      setSuccess(true)
     } catch (error) {
       setError("Something went wrong")
     } finally {
@@ -38,17 +38,51 @@ export default function SignIn() {
     }
   }
 
+  if (success) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
+        <div className="w-full max-w-md animate-fadeIn">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-accent rounded-2xl mb-4 animate-scaleIn">
+              <Mail className="w-8 h-8 text-background" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
+              Check Your Email
+            </h1>
+            <p className="text-foreground">We sent you a password reset link</p>
+          </div>
+
+          <div className="bg-background rounded-2xl border-2 border-foreground p-8">
+            <p className="text-center text-foreground mb-6">
+              If an account exists for <strong>{email}</strong>, you will receive an email with instructions to reset your password.
+            </p>
+            <p className="text-center text-sm text-foreground opacity-70 mb-6">
+              The link will expire in 1 hour.
+            </p>
+            <Link
+              href="/auth/signin"
+              className="flex items-center justify-center gap-2 w-full bg-accent text-background py-3 rounded-lg font-semibold hover:opacity-90 transition-all hover:scale-105"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Back to Sign In
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
       <div className="w-full max-w-md animate-fadeIn">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-accent rounded-2xl mb-4 animate-scaleIn">
-            <LogIn className="w-8 h-8 text-background" />
+            <Mail className="w-8 h-8 text-background" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
-            Welcome Back
+            Forgot Password?
           </h1>
-          <p className="text-foreground">Sign in to manage your inventory</p>
+          <p className="text-foreground">Enter your email to reset your password</p>
         </div>
 
         <div className="bg-background rounded-2xl border-2 border-foreground p-8 animate-fadeIn" style={{ animationDelay: "0.1s" }}>
@@ -71,34 +105,9 @@ export default function SignIn() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  autoComplete="email"
                   className="w-full pl-12 pr-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
                   placeholder="you@example.com"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label htmlFor="password" className="block text-sm font-semibold text-foreground">
-                  Password
-                </label>
-                <Link
-                  href="/auth/forgot-password"
-                  className="text-xs text-accent hover:opacity-80 hover:underline font-semibold"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <div className="relative">
-                <Lock aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground opacity-50 pointer-events-none" />
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full pl-12 pr-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
-                  placeholder="••••••••"
                 />
               </div>
             </div>
@@ -108,17 +117,18 @@ export default function SignIn() {
               disabled={loading}
               className="w-full bg-accent text-background py-3 rounded-lg font-semibold hover:opacity-90 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "Sending..." : "Send Reset Link"}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-foreground">
-              Don't have an account?{" "}
-              <Link href="/auth/signup" className="font-semibold text-accent hover:opacity-80 hover:underline">
-                Sign up
-              </Link>
-            </p>
+            <Link
+              href="/auth/signin"
+              className="inline-flex items-center gap-2 text-sm text-accent hover:opacity-80 hover:underline font-semibold"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Sign In
+            </Link>
           </div>
         </div>
       </div>

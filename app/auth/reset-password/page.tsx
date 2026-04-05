@@ -1,21 +1,22 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react"
+import { useState, useEffect, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { User, Mail, Lock, UserPlus, Eye, EyeOff } from "lucide-react"
+import { Lock, Eye, EyeOff, CheckCircle } from "lucide-react"
 import { validatePassword, getPasswordStrengthColor, getPasswordStrengthBg } from "@/lib/password-validation"
 
-export default function SignUp() {
+function ResetPasswordForm() {
   const router = useRouter()
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
+
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [passwordValidation, setPasswordValidation] = useState({
     isValid: false,
@@ -23,6 +24,12 @@ export default function SignUp() {
     strength: 'weak' as 'weak' | 'medium' | 'strong'
   })
   const [touched, setTouched] = useState(false)
+
+  useEffect(() => {
+    if (!token) {
+      setError("Invalid or missing reset token")
+    }
+  }, [token])
 
   useEffect(() => {
     if (password) {
@@ -36,6 +43,12 @@ export default function SignUp() {
     setError("")
     setTouched(true)
     setLoading(true)
+
+    if (!token) {
+      setError("Invalid or missing reset token")
+      setLoading(false)
+      return
+    }
 
     // Validate password
     if (!passwordValidation.isValid) {
@@ -52,10 +65,10 @@ export default function SignUp() {
     }
 
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ token, password }),
       })
 
       const data = await res.json()
@@ -66,23 +79,44 @@ export default function SignUp() {
         return
       }
 
-      const signInResult = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      })
-
-      if (signInResult?.error) {
-        setError("Account created but sign in failed. Please sign in manually.")
-        setLoading(false)
-      } else {
-        router.push("/dashboard")
-        router.refresh()
-      }
+      setSuccess(true)
+      setTimeout(() => {
+        router.push("/auth/signin")
+      }, 3000)
     } catch (error) {
       setError("Something went wrong")
       setLoading(false)
     }
+  }
+
+  if (success) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
+        <div className="w-full max-w-md animate-fadeIn">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-accent rounded-2xl mb-4 animate-scaleIn">
+              <CheckCircle className="w-8 h-8 text-background" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
+              Password Reset!
+            </h1>
+            <p className="text-foreground">Your password has been successfully reset</p>
+          </div>
+
+          <div className="bg-background rounded-2xl border-2 border-foreground p-8">
+            <p className="text-center text-foreground mb-6">
+              Redirecting you to sign in...
+            </p>
+            <Link
+              href="/auth/signin"
+              className="flex items-center justify-center w-full bg-accent text-background py-3 rounded-lg font-semibold hover:opacity-90 transition-all hover:scale-105"
+            >
+              Sign In Now
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -90,12 +124,12 @@ export default function SignUp() {
       <div className="w-full max-w-md animate-fadeIn">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-accent rounded-2xl mb-4 animate-scaleIn">
-            <UserPlus className="w-8 h-8 text-background" />
+            <Lock className="w-8 h-8 text-background" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
-            Get Started
+            Reset Password
           </h1>
-          <p className="text-foreground">Create your account to start tracking</p>
+          <p className="text-foreground">Choose a new password for your account</p>
         </div>
 
         <div className="bg-background rounded-2xl border-2 border-foreground p-8 animate-fadeIn" style={{ animationDelay: "0.1s" }}>
@@ -107,46 +141,8 @@ export default function SignUp() {
             )}
 
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
-                Name
-              </label>
-              <div className="relative">
-                <User aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground opacity-50 pointer-events-none" />
-                <input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  autoComplete="name"
-                  className="w-full pl-12 pr-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
-                  placeholder="John Doe"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2">
-                Email
-              </label>
-              <div className="relative">
-                <Mail aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground opacity-50 pointer-events-none" />
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
-                  className="w-full pl-12 pr-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
-                  placeholder="you@example.com"
-                />
-              </div>
-            </div>
-
-            <div>
               <label htmlFor="password" className="block text-sm font-semibold text-foreground mb-2">
-                Password
+                New Password
               </label>
               <div className="relative">
                 <Lock aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground opacity-50 pointer-events-none" />
@@ -201,7 +197,7 @@ export default function SignUp() {
 
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-semibold text-foreground mb-2">
-                Confirm Password
+                Confirm New Password
               </label>
               <div className="relative">
                 <Lock aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground opacity-50 pointer-events-none" />
@@ -231,23 +227,35 @@ export default function SignUp() {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !token}
               className="w-full bg-accent text-background py-3 rounded-lg font-semibold hover:opacity-90 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Creating account..." : "Create Account"}
+              {loading ? "Resetting..." : "Reset Password"}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-foreground">
-              Already have an account?{" "}
-              <Link href="/auth/signin" className="font-semibold text-accent hover:opacity-80 hover:underline">
-                Sign in
-              </Link>
-            </p>
+            <Link
+              href="/auth/signin"
+              className="text-sm text-accent hover:opacity-80 hover:underline font-semibold"
+            >
+              Back to Sign In
+            </Link>
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ResetPassword() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-foreground">Loading...</div>
+      </div>
+    }>
+      <ResetPasswordForm />
+    </Suspense>
   )
 }
