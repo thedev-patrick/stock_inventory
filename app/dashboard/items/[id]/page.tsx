@@ -101,11 +101,8 @@ export default function ItemDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-accent border-r-transparent"></div>
-          <p className="mt-4 text-foreground">Loading...</p>
-        </div>
+      <div className="flex items-center justify-center min-h-96">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
       </div>
     )
   }
@@ -113,207 +110,236 @@ export default function ItemDetail() {
   if (!item) return null
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="bg-background border-b-2 border-foreground">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 animate-fadeIn">
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="flex items-center text-foreground hover:text-accent mb-4 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Dashboard
-          </button>
-          <div className="flex items-start justify-between">
-            <div className="flex-1 flex items-start gap-4">
-              <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center flex-shrink-0">
-                <Package className="w-6 h-6 text-background" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-foreground mb-2">{item.name}</h1>
-                {item.category && (
-                  <p className="text-sm text-foreground">{item.category}</p>
-                )}
-              </div>
+    <div className="space-y-4 sm:space-y-6">
+      {/* Header Section */}
+      <div className="flex flex-col gap-4">
+        <button
+          type="button"
+          onClick={() => router.push("/dashboard/items")}
+          className="flex items-center text-foreground/70 hover:text-accent transition-colors self-start"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Items
+        </button>
+
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Package className="w-6 h-6 sm:w-7 sm:h-7 text-accent" />
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setShowEditModal(true)}
-                className="flex items-center gap-2 px-4 py-2 border-2 border-foreground rounded-lg text-foreground hover:bg-foreground hover:text-background font-medium transition-all"
-              >
-                <Edit2 className="w-4 h-4" />
-                Edit
-              </button>
-              <button
-                onClick={handleDelete}
-                className="flex items-center gap-2 px-4 py-2 border-2 border-accent rounded-lg text-accent hover:bg-accent hover:text-background font-medium transition-all"
-              >
-                <Trash2 className="w-4 h-4" />
-                Delete
-              </button>
+            <div className="min-w-0 flex-1">
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1 break-words">{item.name}</h1>
+              {item.category && (
+                <span className="inline-block text-xs px-2 py-1 bg-accent/10 text-accent rounded-full">
+                  {item.category}
+                </span>
+              )}
             </div>
+          </div>
+
+          <div className="flex gap-2 sm:gap-3 flex-shrink-0">
+            <button
+              type="button"
+              onClick={() => setShowEditModal(true)}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors text-sm"
+            >
+              <Edit2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Edit</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Delete</span>
+            </button>
           </div>
         </div>
-      </header>
+      </div>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {item.description && (
-          <div className="bg-background rounded-xl border-2 border-foreground p-6 mb-6 animate-fadeIn">
-            <div className="flex items-center gap-2 mb-2">
-              <FileText className="w-5 h-5 text-accent" />
-              <h2 className="text-sm font-semibold text-foreground">Description</h2>
-            </div>
-            <p className="text-foreground">{item.description}</p>
+      {/* Description Section */}
+      {item.description && (
+        <div className="bg-background border border-accent/20 rounded-lg p-4 sm:p-6">
+          <div className="flex items-center gap-2 mb-3">
+            <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-accent flex-shrink-0" />
+            <h2 className="text-sm sm:text-base font-semibold text-foreground">Description</h2>
           </div>
-        )}
+          <p className="text-sm sm:text-base text-foreground/70">{item.description}</p>
+        </div>
+      )}
 
-        <div className="bg-background rounded-xl border-2 border-foreground p-6 mb-6 animate-fadeIn" style={{ animationDelay: "0.1s" }}>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-foreground">Status</h2>
-            {!currentBorrow && (
-              <button
-                onClick={() => setShowBorrowModal(true)}
-                className="flex items-center gap-2 bg-accent text-background px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-all hover:scale-105"
-              >
-                <Clock className="w-4 h-4" />
-                Mark as Borrowed
-              </button>
-            )}
-          </div>
+      {/* Status Section */}
+      <div className="bg-background border border-accent/20 rounded-lg p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4">
+          <h2 className="text-base sm:text-lg font-semibold text-foreground">Current Status</h2>
+          {!currentBorrow && (
+            <button
+              type="button"
+              onClick={() => setShowBorrowModal(true)}
+              className="flex items-center justify-center gap-2 bg-accent text-background px-4 py-2 rounded-lg hover:opacity-90 transition-colors text-sm font-medium whitespace-nowrap"
+            >
+              <Clock className="w-4 h-4" />
+              Mark as Borrowed
+            </button>
+          )}
+        </div>
 
-          {currentBorrow ? (
-            <div className="border-2 border-accent rounded-lg p-4">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-start gap-2">
-                  <Clock className="w-5 h-5 text-accent mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-foreground">Currently Borrowed</p>
-                    <p className="text-sm text-foreground mt-1 flex items-center gap-1">
-                      <User className="w-3 h-3" />
-                      {currentBorrow.borrowerName}
-                    </p>
-                  </div>
+        {currentBorrow ? (
+          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+              <div className="flex items-start gap-2 flex-1 min-w-0">
+                <Clock className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="font-semibold text-orange-900 dark:text-orange-200">Currently Borrowed</p>
+                  <p className="text-sm text-orange-800 dark:text-orange-300 mt-1 flex items-center gap-1 break-words">
+                    <User className="w-3 h-3 flex-shrink-0" />
+                    <span className="break-words">{currentBorrow.borrowerName}</span>
+                  </p>
                 </div>
-                <button
-                  onClick={() => handleMarkReturned(currentBorrow.id)}
-                  className="flex items-center gap-2 bg-accent text-background px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-all hover:scale-105"
-                >
-                  <CheckCircle className="w-4 h-4" />
-                  Mark Returned
-                </button>
               </div>
+              <button
+                type="button"
+                onClick={() => handleMarkReturned(currentBorrow.id)}
+                className="flex items-center justify-center gap-2 bg-accent text-background px-3 sm:px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-colors whitespace-nowrap"
+              >
+                <CheckCircle className="w-4 h-4" />
+                Mark Returned
+              </button>
+            </div>
+
+            <div className="space-y-2">
               {currentBorrow.borrowerEmail && (
-                <p className="text-sm text-foreground flex items-center gap-1">
-                  <Mail className="w-3 h-3" />
+                <p className="text-sm text-orange-800 dark:text-orange-300 flex items-center gap-1 break-all">
+                  <Mail className="w-3 h-3 flex-shrink-0" />
                   {currentBorrow.borrowerEmail}
                 </p>
               )}
               {currentBorrow.borrowerPhone && (
-                <p className="text-sm text-foreground flex items-center gap-1">
-                  <Phone className="w-3 h-3" />
+                <p className="text-sm text-orange-800 dark:text-orange-300 flex items-center gap-1">
+                  <Phone className="w-3 h-3 flex-shrink-0" />
                   {currentBorrow.borrowerPhone}
                 </p>
               )}
-              <div className="flex gap-4 mt-3 text-sm">
-                <div>
-                  <p className="text-foreground flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    Borrowed
-                  </p>
-                  <p className="font-medium text-foreground">{new Date(currentBorrow.borrowedAt).toLocaleDateString()}</p>
-                </div>
-                <div>
-                  <p className="text-foreground flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    Expected Return
-                  </p>
-                  <p className="font-medium text-foreground">{new Date(currentBorrow.expectedReturnAt).toLocaleDateString()}</p>
-                </div>
-              </div>
-              {currentBorrow.notes && (
-                <p className="text-sm text-foreground mt-3 pt-3 border-t border-foreground">
-                  Note: {currentBorrow.notes}
-                </p>
-              )}
             </div>
-          ) : (
-            <div className="border-2 border-foreground rounded-lg p-4 flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-foreground" />
-              <div>
-                <p className="font-semibold text-foreground">Available</p>
-                <p className="text-sm text-foreground">This item is currently available</p>
-              </div>
-            </div>
-          )}
-        </div>
 
-        <div className="bg-background rounded-xl border-2 border-foreground p-6 animate-fadeIn" style={{ animationDelay: "0.2s" }}>
-          <h2 className="text-lg font-bold text-foreground mb-4">Borrow History</h2>
-          {item.borrowRecords.length === 0 ? (
-            <p className="text-foreground text-center py-8">No borrow history yet</p>
-          ) : (
-            <div className="space-y-4">
-              {item.borrowRecords.map((record) => (
-                <div key={record.id} className="border-2 border-foreground rounded-lg p-4 hover:border-accent transition-colors">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex items-start gap-2">
-                      <User className="w-5 h-5 text-accent mt-0.5" />
-                      <div>
-                        <p className="font-semibold text-foreground">{record.borrowerName}</p>
-                        {record.borrowerEmail && (
-                          <p className="text-sm text-foreground flex items-center gap-1">
-                            <Mail className="w-3 h-3" />
-                            {record.borrowerEmail}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <span className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${
-                      record.returnedAt
-                        ? "border border-foreground text-foreground"
-                        : "bg-accent text-background"
-                    }`}>
-                      {record.returnedAt ? <><CheckCircle className="w-3 h-3" />Returned</> : <><Clock className="w-3 h-3" />Borrowed</>}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3 text-sm">
-                    <div>
-                      <p className="text-foreground flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        Borrowed
-                      </p>
-                      <p className="font-medium text-foreground">{new Date(record.borrowedAt).toLocaleDateString()}</p>
-                    </div>
-                    <div>
-                      <p className="text-foreground flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        Expected Return
-                      </p>
-                      <p className="font-medium text-foreground">{new Date(record.expectedReturnAt).toLocaleDateString()}</p>
-                    </div>
-                    {record.returnedAt && (
-                      <div>
-                        <p className="text-foreground flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          Returned
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 text-sm">
+              <div>
+                <p className="text-orange-700 dark:text-orange-300 flex items-center gap-1 mb-1">
+                  <Calendar className="w-3 h-3 flex-shrink-0" />
+                  Borrowed
+                </p>
+                <p className="font-medium text-orange-900 dark:text-orange-200">{new Date(currentBorrow.borrowedAt).toLocaleDateString()}</p>
+              </div>
+              <div>
+                <p className="text-orange-700 dark:text-orange-300 flex items-center gap-1 mb-1">
+                  <Calendar className="w-3 h-3 flex-shrink-0" />
+                  Expected Return
+                </p>
+                <p className="font-medium text-orange-900 dark:text-orange-200">{new Date(currentBorrow.expectedReturnAt).toLocaleDateString()}</p>
+              </div>
+            </div>
+
+            {currentBorrow.notes && (
+              <p className="text-sm text-orange-800 dark:text-orange-300 mt-3 pt-3 border-t border-orange-200 dark:border-orange-800">
+                <span className="font-medium text-orange-900 dark:text-orange-200">Note:</span> {currentBorrow.notes}
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 flex items-center gap-3">
+            <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+            <div>
+              <p className="font-semibold text-green-900 dark:text-green-200">Available</p>
+              <p className="text-sm text-green-800 dark:text-green-300">This item is currently available</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Borrow History Section */}
+      <div className="bg-background border border-accent/20 rounded-lg p-4 sm:p-6">
+        <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4">Borrow History</h2>
+        {item.borrowRecords.length === 0 ? (
+          <div className="text-center py-8">
+            <Clock className="h-10 w-10 sm:h-12 sm:w-12 text-accent/50 mx-auto mb-3" />
+            <p className="text-foreground/70 text-sm sm:text-base">No borrow history yet</p>
+          </div>
+        ) : (
+          <div className="space-y-3 sm:space-y-4">
+            {item.borrowRecords.map((record) => (
+              <div key={record.id} className="border border-accent/20 rounded-lg p-4 hover:border-accent/40 transition-colors">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+                  <div className="flex items-start gap-2 flex-1 min-w-0">
+                    <User className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-foreground break-words">{record.borrowerName}</p>
+                      {record.borrowerEmail && (
+                        <p className="text-sm text-foreground/70 flex items-center gap-1 mt-1 break-all">
+                          <Mail className="w-3 h-3 flex-shrink-0" />
+                          {record.borrowerEmail}
                         </p>
-                        <p className="font-medium text-foreground">{new Date(record.returnedAt).toLocaleDateString()}</p>
-                        {record.validatedBy && (
-                          <p className="text-xs text-foreground/70 mt-1">{record.validatedBy}</p>
-                        )}
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
-                  {record.notes && (
-                    <p className="text-sm text-foreground mt-3 pt-3 border-t border-foreground">
-                      {record.notes}
+                  <span className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium flex-shrink-0 ${
+                    record.returnedAt
+                      ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                      : "bg-accent text-background"
+                  }`}>
+                    {record.returnedAt ? (
+                      <>
+                        <CheckCircle className="w-3 h-3" />
+                        Returned
+                      </>
+                    ) : (
+                      <>
+                        <Clock className="w-3 h-3" />
+                        Borrowed
+                      </>
+                    )}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                  <div>
+                    <p className="text-foreground/70 flex items-center gap-1 mb-1">
+                      <Calendar className="w-3 h-3 flex-shrink-0" />
+                      Borrowed
                     </p>
+                    <p className="font-medium text-foreground">{new Date(record.borrowedAt).toLocaleDateString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-foreground/70 flex items-center gap-1 mb-1">
+                      <Calendar className="w-3 h-3 flex-shrink-0" />
+                      Expected Return
+                    </p>
+                    <p className="font-medium text-foreground">{new Date(record.expectedReturnAt).toLocaleDateString()}</p>
+                  </div>
+                  {record.returnedAt && (
+                    <div>
+                      <p className="text-foreground/70 flex items-center gap-1 mb-1">
+                        <Calendar className="w-3 h-3 flex-shrink-0" />
+                        Returned
+                      </p>
+                      <p className="font-medium text-foreground">{new Date(record.returnedAt).toLocaleDateString()}</p>
+                      {record.validatedBy && (
+                        <p className="text-xs text-foreground/60 mt-1">{record.validatedBy}</p>
+                      )}
+                    </div>
                   )}
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </main>
+
+                {record.notes && (
+                  <p className="text-sm text-foreground/70 mt-3 pt-3 border-t border-accent/20">
+                    <span className="font-medium text-foreground">Note:</span> {record.notes}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {showBorrowModal && (
         <BorrowModal
@@ -359,9 +385,8 @@ function BorrowModal({ itemId, onClose, onSuccess }: { itemId: string; onClose: 
   const [notes, setNotes] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
-  const { X: CloseIcon } = require("lucide-react")
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setError("")
@@ -395,24 +420,24 @@ function BorrowModal({ itemId, onClose, onSuccess }: { itemId: string; onClose: 
   }
 
   return (
-    <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto animate-fadeIn">
-      <div className="bg-background rounded-2xl max-w-md w-full p-6 my-8 border-2 border-foreground animate-scaleIn">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-foreground">Mark as Borrowed</h2>
-          <button onClick={onClose} className="text-foreground hover:text-accent transition-colors">
-            <X className="w-6 h-6" />
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+      <div className="bg-background rounded-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-foreground">Mark as Borrowed</h2>
+          <button type="button" onClick={onClose} className="text-foreground/70 hover:text-accent transition-colors" aria-label="Close modal">
+            <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="border-2 border-accent text-accent px-4 py-3 rounded-lg text-sm">
-              {error}
-            </div>
-          )}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200 text-sm">
+            {error}
+          </div>
+        )}
 
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-2">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Borrower Name *
             </label>
             <input
@@ -420,39 +445,39 @@ function BorrowModal({ itemId, onClose, onSuccess }: { itemId: string; onClose: 
               value={borrowerName}
               onChange={(e) => setBorrowerName(e.target.value)}
               required
-              className="w-full px-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none"
+              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="John Doe"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-2">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Email
             </label>
             <input
               type="email"
               value={borrowerEmail}
               onChange={(e) => setBorrowerEmail(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none"
+              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="john@example.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-2">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Phone
             </label>
             <input
               type="tel"
               value={borrowerPhone}
               onChange={(e) => setBorrowerPhone(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none"
+              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="+1 (555) 123-4567"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-2">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Expected Return Date *
             </label>
             <input
@@ -461,35 +486,35 @@ function BorrowModal({ itemId, onClose, onSuccess }: { itemId: string; onClose: 
               onChange={(e) => setExpectedReturnAt(e.target.value)}
               required
               min={new Date().toISOString().split('T')[0]}
-              className="w-full px-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none"
+              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-2">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Notes
             </label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
-              className="w-full px-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none resize-none"
+              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
               placeholder="Any additional information..."
             />
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 border-2 border-foreground rounded-lg font-semibold text-foreground hover:bg-foreground hover:text-background transition-colors"
+              className="flex-1 px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-accent text-background py-3 rounded-lg font-semibold hover:opacity-90 transition-colors disabled:opacity-50"
+              className="flex-1 bg-accent text-background px-4 py-2 rounded-lg hover:opacity-90 transition-colors disabled:opacity-50"
             >
               {loading ? "Saving..." : "Mark as Borrowed"}
             </button>
@@ -507,7 +532,7 @@ function EditItemModal({ item, onClose, onSuccess }: { item: Item; onClose: () =
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setError("")
@@ -534,26 +559,24 @@ function EditItemModal({ item, onClose, onSuccess }: { item: Item; onClose: () =
   }
 
   return (
-    <div className="fixed inset-0 bg-foreground bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-background rounded-2xl max-w-md w-full p-6 border-2 border-foreground">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-foreground">Edit Item</h2>
-          <button onClick={onClose} className="text-foreground hover:text-accent" aria-label="Close">
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+      <div className="bg-background rounded-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-foreground">Edit Item</h2>
+          <button type="button" onClick={onClose} className="text-foreground/70 hover:text-accent transition-colors" aria-label="Close modal">
+            <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="border-2 border-accent text-accent px-4 py-3 rounded-lg text-sm">
-              {error}
-            </div>
-          )}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200 text-sm">
+            {error}
+          </div>
+        )}
 
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-2">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Item Name *
             </label>
             <input
@@ -561,46 +584,46 @@ function EditItemModal({ item, onClose, onSuccess }: { item: Item; onClose: () =
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none"
+              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-2">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Category
             </label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none"
+              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-2">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Description
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full px-4 py-3 border-2 border-foreground rounded-lg bg-background text-foreground focus:ring-2 focus:ring-accent focus:border-accent outline-none resize-none"
+              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
             />
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 border-2 border-foreground rounded-lg font-semibold text-foreground hover:bg-foreground hover:text-background transition-colors"
+              className="flex-1 px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-accent text-background py-3 rounded-lg font-semibold hover:opacity-90 transition-colors disabled:opacity-50"
+              className="flex-1 bg-accent text-background px-4 py-2 rounded-lg hover:opacity-90 transition-colors disabled:opacity-50"
             >
               {loading ? "Saving..." : "Save Changes"}
             </button>

@@ -251,18 +251,18 @@ export default function TeamPage() {
   )
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-start">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">{team.name}</h1>
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground break-words">{team.name}</h1>
           {team.description && (
-            <p className="text-foreground/70 mt-1">{team.description}</p>
+            <p className="text-foreground/70 mt-1 text-sm sm:text-base">{team.description}</p>
           )}
-          <div className="flex items-center gap-2 mt-2">
-            <span className="text-sm px-2 py-1 bg-accent/10 text-accent rounded-full">
+          <div className="flex flex-wrap items-center gap-2 mt-2">
+            <span className="text-xs sm:text-sm px-2 py-1 bg-accent/10 text-accent rounded-full">
               {team.userRole}
             </span>
-            <span className="text-sm text-foreground/60">
+            <span className="text-xs sm:text-sm text-foreground/60 break-words">
               Owned by {team.owner.name || team.owner.email}
             </span>
           </div>
@@ -272,10 +272,11 @@ export default function TeamPage() {
           <button
             type="button"
             onClick={deleteTeam}
-            className="flex items-center gap-2 px-4 py-2 border border-red-600 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-colors"
+            className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm whitespace-nowrap flex-shrink-0"
           >
             <Trash2 className="h-4 w-4" />
-            Delete Team
+            <span className="hidden sm:inline">Delete Team</span>
+            <span className="sm:hidden">Delete</span>
           </button>
         )}
       </div>

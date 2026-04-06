@@ -3,8 +3,7 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { signOut } from "next-auth/react"
-import { Package, Plus, LogOut, CheckCircle, Clock, Search, Users, Building } from "lucide-react"
+import { Package, CheckCircle, Clock, Search, Users, Building } from "lucide-react"
 
 type Item = {
   id: string
@@ -44,7 +43,6 @@ export default function Dashboard() {
   const [items, setItems] = useState<Item[]>([])
   const [teams, setTeams] = useState<Team[]>([])
   const [loading, setLoading] = useState(true)
-  const [showAddModal, setShowAddModal] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
@@ -105,30 +103,12 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-foreground/70 mt-1">
-            Welcome back, {session?.user?.name || session?.user?.email}
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 bg-accent text-background px-4 py-2 rounded-lg hover:opacity-90 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            Add Item
-          </button>
-          <button
-            onClick={() => signOut({ callbackUrl: "/auth/signin" })}
-            className="flex items-center gap-2 text-foreground hover:text-accent font-medium transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            Sign Out
-          </button>
-        </div>
+    <div className="space-y-4 sm:space-y-6">
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Dashboard</h1>
+        <p className="text-foreground/70 mt-1 text-sm sm:text-base">
+          Welcome back, {session?.user?.name || session?.user?.email}
+        </p>
       </div>
 
       {/* Search */}
@@ -144,71 +124,63 @@ export default function Dashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-background border border-accent/20 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <Package className="h-8 w-8 text-accent" />
-            <div>
-              <p className="text-2xl font-bold text-foreground">{items.length}</p>
-              <p className="text-sm text-foreground/70">Total Items</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-background border border-accent/20 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Package className="h-6 w-6 sm:h-8 sm:w-8 text-accent flex-shrink-0" />
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{items.length}</p>
+              <p className="text-xs sm:text-sm text-foreground/70 truncate">Total Items</p>
             </div>
           </div>
         </div>
-        <div className="bg-background border border-accent/20 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <CheckCircle className="h-8 w-8 text-green-600" />
-            <div>
-              <p className="text-2xl font-bold text-foreground">{availableItems.length}</p>
-              <p className="text-sm text-foreground/70">Available</p>
+        <div className="bg-background border border-accent/20 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 flex-shrink-0" />
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{availableItems.length}</p>
+              <p className="text-xs sm:text-sm text-foreground/70 truncate">Available</p>
             </div>
           </div>
         </div>
-        <div className="bg-background border border-accent/20 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <Clock className="h-8 w-8 text-orange-600" />
-            <div>
-              <p className="text-2xl font-bold text-foreground">{borrowedItems.length}</p>
-              <p className="text-sm text-foreground/70">Borrowed</p>
+        <div className="bg-background border border-accent/20 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Clock className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600 flex-shrink-0" />
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{borrowedItems.length}</p>
+              <p className="text-xs sm:text-sm text-foreground/70 truncate">Borrowed</p>
             </div>
           </div>
         </div>
-        <div className="bg-background border border-accent/20 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <Users className="h-8 w-8 text-blue-600" />
-            <div>
-              <p className="text-2xl font-bold text-foreground">{teams.length}</p>
-              <p className="text-sm text-foreground/70">Teams</p>
+        <div className="bg-background border border-accent/20 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Users className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 flex-shrink-0" />
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{teams.length}</p>
+              <p className="text-xs sm:text-sm text-foreground/70 truncate">Teams</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Recent Items */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-foreground">Recent Items</h2>
+      <div className="space-y-3 sm:space-y-4">
+        <h2 className="text-lg sm:text-xl font-semibold text-foreground">Recent Items</h2>
         {filteredItems.length === 0 ? (
           <div className="text-center py-12">
             <Package className="h-12 w-12 text-accent/50 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-foreground mb-2">
               {searchQuery ? "No items found" : "No items yet"}
             </h3>
-            <p className="text-foreground/70 mb-4">
+            <p className="text-foreground/70">
               {searchQuery
                 ? "Try adjusting your search terms"
-                : "Add your first item to get started"
+                : "Add your first item to get started from the Items page"
               }
             </p>
-            {!searchQuery && (
-              <button
-                onClick={() => setShowAddModal(true)}
-                className="bg-accent text-background px-6 py-3 rounded-lg hover:opacity-90 transition-colors"
-              >
-                Add Your First Item
-              </button>
-            )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredItems.slice(0, 6).map((item) => {
               const isBorrowed = item.borrowRecords.some(record => record.returnedAt === null)
               const currentBorrow = item.borrowRecords.find(record => record.returnedAt === null)
@@ -216,32 +188,32 @@ export default function Dashboard() {
               return (
                 <div
                   key={item.id}
-                  className="bg-background border border-accent/20 rounded-lg p-6 hover:border-accent/40 transition-colors cursor-pointer"
+                  className="bg-background border border-accent/20 rounded-lg p-4 sm:p-6 hover:border-accent/40 transition-colors cursor-pointer"
                   onClick={() => router.push(`/dashboard/items/${item.id}`)}
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-1">
+                  <div className="flex justify-between items-start mb-3 sm:mb-4">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1 truncate">
                         {item.name}
                       </h3>
                       {item.category && (
-                        <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full">
+                        <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full inline-block">
                           {item.category}
                         </span>
                       )}
                     </div>
-                    <div className={`w-3 h-3 rounded-full ${isBorrowed ? 'bg-orange-500' : 'bg-green-500'}`} />
+                    <div className={`w-3 h-3 rounded-full flex-shrink-0 ml-2 ${isBorrowed ? 'bg-orange-500' : 'bg-green-500'}`} />
                   </div>
 
                   {item.description && (
-                    <p className="text-foreground/70 text-sm mb-4 line-clamp-2">
+                    <p className="text-foreground/70 text-sm mb-3 sm:mb-4 line-clamp-2">
                       {item.description}
                     </p>
                   )}
 
                   {isBorrowed && currentBorrow ? (
-                    <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3 mb-4">
-                      <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
+                    <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3 mb-3 sm:mb-4">
+                      <p className="text-sm font-medium text-orange-800 dark:text-orange-200 truncate">
                         Borrowed by {currentBorrow.borrowerName}
                       </p>
                       <p className="text-xs text-orange-600 dark:text-orange-300">
@@ -268,49 +240,49 @@ export default function Dashboard() {
 
       {/* Recent Teams */}
       {teams.length > 0 && (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold text-foreground">Your Teams</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground">Your Teams</h2>
             <button
               onClick={() => router.push('/dashboard/teams')}
-              className="text-accent hover:text-accent/80 text-sm font-medium"
+              className="text-accent hover:text-accent/80 text-xs sm:text-sm font-medium whitespace-nowrap"
             >
               View all teams
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {teams.slice(0, 3).map((team) => (
               <div
                 key={team.id}
-                className="bg-background border border-accent/20 rounded-lg p-6 hover:border-accent/40 transition-colors cursor-pointer"
+                className="bg-background border border-accent/20 rounded-lg p-4 sm:p-6 hover:border-accent/40 transition-colors cursor-pointer"
                 onClick={() => router.push(`/dashboard/teams/${team.id}`)}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-1">
+                <div className="flex items-start justify-between mb-3 sm:mb-4">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1 truncate">
                       {team.name}
                     </h3>
-                    <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full">
+                    <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full inline-block">
                       {team.role}
                     </span>
                   </div>
-                  <Building className="h-5 w-5 text-accent/50" />
+                  <Building className="h-5 w-5 text-accent/50 flex-shrink-0 ml-2" />
                 </div>
 
                 {team.description && (
-                  <p className="text-foreground/70 text-sm mb-4 line-clamp-2">
+                  <p className="text-foreground/70 text-sm mb-3 sm:mb-4 line-clamp-2">
                     {team.description}
                   </p>
                 )}
 
-                <div className="flex items-center justify-between text-sm text-foreground/60">
+                <div className="flex items-center justify-between text-xs sm:text-sm text-foreground/60">
                   <div className="flex items-center gap-1">
-                    <Users className="h-4 w-4" />
-                    {team.members.length} members
+                    <Users className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">{team.members.length} members</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Package className="h-4 w-4" />
-                    {team._count.items} items
+                    <Package className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">{team._count.items} items</span>
                   </div>
                 </div>
               </div>
@@ -318,128 +290,6 @@ export default function Dashboard() {
           </div>
         </div>
       )}
-
-      {showAddModal && (
-        <AddItemModal
-          onClose={() => setShowAddModal(false)}
-          onSuccess={() => {
-            setShowAddModal(false)
-            fetchData()
-          }}
-        />
-      )}
-    </div>
-  )
-}
-
-function AddItemModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-  const [category, setCategory] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
-
-    try {
-      const res = await fetch("/api/items", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description, category }),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        setError(data.error || "Failed to add item")
-        setLoading(false)
-        return
-      }
-
-      onSuccess()
-    } catch (error) {
-      setError("Something went wrong")
-      setLoading(false)
-    }
-  }
-
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-background rounded-lg p-6 w-full max-w-md">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-foreground">Add New Item</h2>
-          <button onClick={onClose} className="text-foreground hover:text-accent transition-colors">
-            ✕
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="border border-accent text-accent px-4 py-3 rounded-lg text-sm">
-              {error}
-            </div>
-          )}
-
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1">
-              Item Name *
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-              placeholder="AirPods Pro"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1">
-              Category
-            </label>
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-              placeholder="Electronics"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1">
-              Description
-            </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
-              placeholder="Add any additional details..."
-            />
-          </div>
-
-          <div className="flex gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 bg-accent text-background py-2 rounded-lg hover:opacity-90 transition-colors disabled:opacity-50"
-            >
-              {loading ? "Adding..." : "Add Item"}
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
   )
 }

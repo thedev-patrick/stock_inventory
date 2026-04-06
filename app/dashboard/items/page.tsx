@@ -142,17 +142,17 @@ export default function ItemsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">My Items</h1>
-          <p className="text-foreground/70 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">My Items</h1>
+          <p className="text-foreground/70 mt-1 text-sm sm:text-base">
             Manage your personal inventory
           </p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 bg-accent text-background px-4 py-2 rounded-lg hover:opacity-90 transition-colors"
+          className="flex items-center justify-center gap-2 bg-accent text-background px-4 py-2 rounded-lg hover:opacity-90 transition-colors whitespace-nowrap"
         >
           <Plus className="h-4 w-4" />
           Add Item
@@ -172,38 +172,38 @@ export default function ItemsPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <div className="bg-background border border-accent/20 rounded-lg p-4">
           <div className="flex items-center gap-3">
-            <Package className="h-8 w-8 text-accent" />
+            <Package className="h-6 w-6 sm:h-8 sm:w-8 text-accent flex-shrink-0" />
             <div>
-              <p className="text-2xl font-bold text-foreground">{items.length}</p>
-              <p className="text-sm text-foreground/70">Total Items</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{items.length}</p>
+              <p className="text-xs sm:text-sm text-foreground/70">Total Items</p>
             </div>
           </div>
         </div>
         <div className="bg-background border border-accent/20 rounded-lg p-4">
           <div className="flex items-center gap-3">
-            <CheckCircle className="h-8 w-8 text-green-600" />
+            <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 flex-shrink-0" />
             <div>
-              <p className="text-2xl font-bold text-foreground">{availableItems.length}</p>
-              <p className="text-sm text-foreground/70">Available</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{availableItems.length}</p>
+              <p className="text-xs sm:text-sm text-foreground/70">Available</p>
             </div>
           </div>
         </div>
         <div className="bg-background border border-accent/20 rounded-lg p-4">
           <div className="flex items-center gap-3">
-            <Clock className="h-8 w-8 text-orange-600" />
+            <Clock className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600 flex-shrink-0" />
             <div>
-              <p className="text-2xl font-bold text-foreground">{borrowedItems.length}</p>
-              <p className="text-sm text-foreground/70">Borrowed</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{borrowedItems.length}</p>
+              <p className="text-xs sm:text-sm text-foreground/70">Borrowed</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Items Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {filteredItems.map((item) => {
           const isBorrowed = item.borrowRecords.some(record => record.returnedAt === null)
           const currentBorrow = item.borrowRecords.find(record => record.returnedAt === null)
@@ -211,11 +211,11 @@ export default function ItemsPage() {
           return (
             <div
               key={item.id}
-              className="bg-background border border-accent/20 rounded-lg p-6 hover:border-accent/40 transition-colors"
+              className="bg-background border border-accent/20 rounded-lg p-4 sm:p-6 hover:border-accent/40 transition-colors"
             >
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-1">
+              <div className="flex justify-between items-start mb-3 sm:mb-4">
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1 truncate">
                     {item.name}
                   </h3>
                   {item.category && (
@@ -224,16 +224,16 @@ export default function ItemsPage() {
                     </span>
                   )}
                 </div>
-                <div className={`w-3 h-3 rounded-full ${isBorrowed ? 'bg-orange-500' : 'bg-green-500'}`} />
+                <div className={`w-3 h-3 rounded-full flex-shrink-0 ml-2 ${isBorrowed ? 'bg-orange-500' : 'bg-green-500'}`} />
               </div>
 
               {item.description && (
-                <p className="text-foreground/70 text-sm mb-4 line-clamp-2">
+                <p className="text-foreground/70 text-sm mb-3 sm:mb-4 line-clamp-2">
                   {item.description}
                 </p>
               )}
 
-              <div className="flex flex-wrap items-center gap-2 mb-4">
+              <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
                 <Link
                   href={`/dashboard/items/${item.id}`}
                   className="text-sm font-semibold text-accent hover:text-accent/80"
@@ -243,8 +243,8 @@ export default function ItemsPage() {
               </div>
 
               {isBorrowed && currentBorrow ? (
-                <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3 mb-4">
-                  <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
+                <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3 mb-3 sm:mb-4">
+                  <p className="text-sm font-medium text-orange-800 dark:text-orange-200 truncate">
                     Borrowed by {currentBorrow.borrowerName}
                   </p>
                   <p className="text-xs text-orange-600 dark:text-orange-300">
@@ -293,8 +293,8 @@ export default function ItemsPage() {
       {/* Add Item Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-background rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-semibold text-foreground mb-4">Add New Item</h2>
+          <div className="bg-background rounded-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-4">Add New Item</h2>
             {addItemError && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
                 {addItemError}
@@ -360,8 +360,8 @@ export default function ItemsPage() {
       {/* Borrow Item Modal */}
       {showBorrowModal && selectedItem && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-background rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-semibold text-foreground mb-4">
+          <div className="bg-background rounded-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-4 truncate">
               Borrow "{selectedItem.name}"
             </h2>
             <form onSubmit={handleBorrowItem}>
