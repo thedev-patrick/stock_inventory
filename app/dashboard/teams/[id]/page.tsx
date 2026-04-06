@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import ConfirmModal from "../../../components/confirm-modal"
-import { Plus, Users, Package, Mail, Trash2, Crown, User } from "lucide-react"
+import { Plus, Users, Package, Mail, Trash2, Crown, User, Search } from "lucide-react"
 
 interface Team {
   id: string
@@ -50,6 +50,8 @@ export default function TeamPage() {
   const [suggestedUsers, setSuggestedUsers] = useState<Array<{ id: string; name?: string; email: string }>>([])
   const [searchingUsers, setSearchingUsers] = useState(false)
   const [searchUsersError, setSearchUsersError] = useState<string | null>(null)
+  const [itemSearchQuery, setItemSearchQuery] = useState("")
+  const [itemError, setItemError] = useState<string | null>(null)
   const [newItem, setNewItem] = useState({
     name: "",
     description: "",
@@ -157,6 +159,8 @@ export default function TeamPage() {
     e.preventDefault()
     if (!newItem.name.trim()) return
 
+    setItemError(null)
+
     try {
       const response = await fetch(`/api/teams/${teamId}/items`, {
         method: "POST",
@@ -167,10 +171,15 @@ export default function TeamPage() {
       if (response.ok) {
         setNewItem({ name: "", description: "", category: "" })
         setShowAddItemForm(false)
+        setItemError(null)
         fetchTeam()
+      } else {
+        const data = await response.json()
+        setItemError(data.error || "Failed to add item")
       }
     } catch (error) {
       console.error("Error adding item:", error)
+      setItemError("Failed to add item")
     }
   }
 
@@ -261,6 +270,7 @@ export default function TeamPage() {
 
         {team.userRole === "OWNER" && (
           <button
+            type="button"
             onClick={deleteTeam}
             className="flex items-center gap-2 px-4 py-2 border border-red-600 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-colors"
           >
@@ -280,6 +290,7 @@ export default function TeamPage() {
             </h2>
             {team.userRole === "OWNER" && (
               <button
+                type="button"
                 onClick={() => setShowInviteForm(true)}
                 className="flex items-center gap-2 bg-accent text-background px-3 py-1 rounded-lg text-sm hover:opacity-90 transition-colors"
               >
@@ -404,6 +415,7 @@ export default function TeamPage() {
               Team Items ({team.items.length})
             </h2>
             <button
+              type="button"
               onClick={() => setShowAddItemForm(true)}
               className="flex items-center gap-2 bg-accent text-background px-3 py-1 rounded-lg text-sm hover:opacity-90 transition-colors"
             >
@@ -414,6 +426,11 @@ export default function TeamPage() {
 
           {showAddItemForm && (
             <form onSubmit={addItem} className="mb-4 p-4 bg-accent/5 rounded-lg space-y-3">
+              {itemError && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
+                  {itemError}
+                </div>
+              )}
               <div>
                 <input
                   type="text"
@@ -451,7 +468,10 @@ export default function TeamPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setShowAddItemForm(false)}
+                  onClick={() => {
+                    setShowAddItemForm(false)
+                    setItemError(null)
+                  }}
                   className="px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors"
                 >
                   Cancel
@@ -465,34 +485,53 @@ export default function TeamPage() {
               No items in this team yet. Add your first item!
             </p>
           ) : (
-            <div className="space-y-3">
-              {team.items.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/dashboard/items/${item.id}`}
-                  className="block p-3 bg-accent/5 rounded-lg hover:bg-accent/10 transition-colors"
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-medium text-foreground">{item.name}</h3>
-                      {item.category && (
-                        <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full">
-                          {item.category}
-                        </span>
-                      )}
-                      {item.description && (
-                        <p className="text-sm text-foreground/70 mt-1">{item.description}</p>
-                      )}
-                    </div>
-                    {item.borrowRecords.length > 0 && (
-                      <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full">
-                        Borrowed by {item.borrowRecords[0].borrowerName}
-                      </span>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <>
+              {/* Item Search */}
+              <div className="relative mb-4">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-foreground/40" />
+                <input
+                  type="text"
+                  value={itemSearchQuery}
+                  onChange={(e) => setItemSearchQuery(e.target.value)}
+                  placeholder="Search items by name or category..."
+                  className="w-full pl-10 pr-4 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
+
+              <div className="space-y-3">
+                {team.items
+                  .filter((item) =>
+                    item.name.toLowerCase().includes(itemSearchQuery.toLowerCase()) ||
+                    item.category?.toLowerCase().includes(itemSearchQuery.toLowerCase())
+                  )
+                  .map((item) => (
+                    <Link
+                      key={item.id}
+                      href={`/dashboard/items/${item.id}`}
+                      className="block p-3 bg-accent/5 rounded-lg hover:bg-accent/10 transition-colors"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-medium text-foreground">{item.name}</h3>
+                          {item.category && (
+                            <span className="text-xs px-2 py-1 bg-accent/10 text-accent rounded-full">
+                              {item.category}
+                            </span>
+                          )}
+                          {item.description && (
+                            <p className="text-sm text-foreground/70 mt-1">{item.description}</p>
+                          )}
+                        </div>
+                        {item.borrowRecords.length > 0 && (
+                          <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full">
+                            Borrowed by {item.borrowRecords[0].borrowerName}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            </>
           )}
         </div>
       </div>

@@ -51,8 +51,17 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json(team)
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating team:", error)
+
+    // Handle unique constraint violation
+    if (error.code === "P2002") {
+      return NextResponse.json(
+        { error: "You already have a team with this name" },
+        { status: 409 }
+      )
+    }
+
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

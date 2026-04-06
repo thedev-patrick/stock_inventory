@@ -94,8 +94,17 @@ export async function POST(request: Request) {
     })
 
     return NextResponse.json({ item }, { status: 201 })
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating item:", error)
+
+    // Handle unique constraint violation
+    if (error.code === "P2002") {
+      return NextResponse.json(
+        { error: "An item with this name already exists in your inventory" },
+        { status: 409 }
+      )
+    }
+
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }

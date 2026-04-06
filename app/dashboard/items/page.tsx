@@ -30,6 +30,7 @@ export default function ItemsPage() {
   const [showBorrowModal, setShowBorrowModal] = useState(false)
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
+  const [addItemError, setAddItemError] = useState<string | null>(null)
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -58,6 +59,8 @@ export default function ItemsPage() {
     const description = formData.get("description") as string
     const category = formData.get("category") as string
 
+    setAddItemError(null)
+
     try {
       const res = await fetch("/api/items", {
         method: "POST",
@@ -71,10 +74,15 @@ export default function ItemsPage() {
 
       if (res.ok) {
         setShowAddModal(false)
+        setAddItemError(null)
         fetchItems()
+      } else {
+        const data = await res.json()
+        setAddItemError(data.error || "Failed to add item")
       }
     } catch (error) {
       console.error("Error adding item:", error)
+      setAddItemError("Failed to add item")
     }
   }
 
@@ -287,6 +295,11 @@ export default function ItemsPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-background rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-semibold text-foreground mb-4">Add New Item</h2>
+            {addItemError && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
+                {addItemError}
+              </div>
+            )}
             <form onSubmit={handleAddItem}>
               <div className="space-y-4">
                 <div>
@@ -330,7 +343,10 @@ export default function ItemsPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setShowAddModal(false)}
+                  onClick={() => {
+                    setShowAddModal(false)
+                    setAddItemError(null)
+                  }}
                   className="px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors"
                 >
                   Cancel

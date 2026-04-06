@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Plus, Users, Package } from "lucide-react"
+import { Plus, Users, Package, Search } from "lucide-react"
 import Link from "next/link"
 
 interface Team {
@@ -27,6 +27,8 @@ export default function TeamsPage() {
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [newTeamName, setNewTeamName] = useState("")
   const [newTeamDescription, setNewTeamDescription] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchTeams()
@@ -50,6 +52,8 @@ export default function TeamsPage() {
     e.preventDefault()
     if (!newTeamName.trim()) return
 
+    setError(null)
+
     try {
       const response = await fetch("/api/teams", {
         method: "POST",
@@ -64,10 +68,15 @@ export default function TeamsPage() {
         setNewTeamName("")
         setNewTeamDescription("")
         setShowCreateForm(false)
+        setError(null)
         fetchTeams()
+      } else {
+        const data = await response.json()
+        setError(data.error || "Failed to create team")
       }
     } catch (error) {
       console.error("Error creating team:", error)
+      setError("Failed to create team")
     }
   }
 
@@ -89,6 +98,7 @@ export default function TeamsPage() {
           </p>
         </div>
         <button
+          type="button"
           onClick={() => setShowCreateForm(true)}
           className="flex items-center gap-2 bg-accent text-background px-4 py-2 rounded-lg hover:opacity-90 transition-colors"
         >
@@ -100,6 +110,11 @@ export default function TeamsPage() {
       {showCreateForm && (
         <div className="bg-background border border-accent/20 rounded-lg p-6">
           <h2 className="text-xl font-semibold text-foreground mb-4">Create New Team</h2>
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
+              {error}
+            </div>
+          )}
           <form onSubmit={createTeam} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-foreground mb-1">
@@ -135,13 +150,30 @@ export default function TeamsPage() {
               </button>
               <button
                 type="button"
-                onClick={() => setShowCreateForm(false)}
+                onClick={() => {
+                  setShowCreateForm(false)
+                  setError(null)
+                }}
                 className="px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors"
               >
                 Cancel
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {/* Search Bar */}
+      {teams.length > 0 && (
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-foreground/40" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search teams by name..."
+            className="w-full pl-10 pr-4 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+          />
         </div>
       )}
 
@@ -153,6 +185,7 @@ export default function TeamsPage() {
             Create your first team to start collaborating on inventory management
           </p>
           <button
+            type="button"
             onClick={() => setShowCreateForm(true)}
             className="bg-accent text-background px-6 py-3 rounded-lg hover:opacity-90 transition-colors"
           >
@@ -161,7 +194,9 @@ export default function TeamsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {teams.map((team) => (
+          {teams.filter((team) =>
+            team.name.toLowerCase().includes(searchQuery.toLowerCase())
+          ).map((team) => (
             <Link
               key={team.id}
               href={`/dashboard/teams/${team.id}`}

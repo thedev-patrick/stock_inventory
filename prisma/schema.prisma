@@ -43,6 +43,8 @@ model Team {
   items       Item[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@unique([name, ownerId])
 }
 
 model TeamMember {
@@ -74,6 +76,9 @@ model Item {
 
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+
+  @@unique([name, userId])
+  @@unique([name, teamId])
 }
 
 model BorrowRecord {

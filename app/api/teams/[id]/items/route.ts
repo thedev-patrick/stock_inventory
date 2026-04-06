@@ -101,8 +101,17 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     })
 
     return NextResponse.json(item)
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating team item:", error)
+
+    // Handle unique constraint violation
+    if (error.code === "P2002") {
+      return NextResponse.json(
+        { error: "An item with this name already exists in this team" },
+        { status: 409 }
+      )
+    }
+
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
