@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import ConfirmModal from "../../../components/confirm-modal"
+import DatePicker from "../../../../components/date-picker"
 import { ArrowLeft, Edit2, Trash2, Package, User, Mail, Phone, Calendar, FileText, CheckCircle, Clock, X } from "lucide-react"
 
 type BorrowRecord = {
@@ -480,13 +481,12 @@ function BorrowModal({ itemId, onClose, onSuccess }: { itemId: string; onClose: 
             <label className="block text-sm font-medium text-foreground mb-1">
               Expected Return Date *
             </label>
-            <input
-              type="date"
+            <DatePicker
               value={expectedReturnAt}
-              onChange={(e) => setExpectedReturnAt(e.target.value)}
+              onChange={setExpectedReturnAt}
               required
               min={new Date().toISOString().split('T')[0]}
-              className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+              placeholder="Pick a return date"
             />
           </div>
 

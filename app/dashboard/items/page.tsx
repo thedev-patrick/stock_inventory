@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Package, Plus, CheckCircle, Clock, Search } from "lucide-react"
+import DatePicker from "../../../components/date-picker"
 
 type Item = {
   id: string
@@ -31,6 +32,7 @@ export default function ItemsPage() {
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [addItemError, setAddItemError] = useState<string | null>(null)
+  const [borrowReturnDate, setBorrowReturnDate] = useState("")
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -112,6 +114,7 @@ export default function ItemsPage() {
       if (res.ok) {
         setShowBorrowModal(false)
         setSelectedItem(null)
+        setBorrowReturnDate("")
         fetchItems()
       }
     } catch (error) {
@@ -401,12 +404,13 @@ export default function ItemsPage() {
                   <label className="block text-sm font-medium text-foreground mb-1">
                     Expected Return Date *
                   </label>
-                  <input
-                    type="date"
+                  <DatePicker
                     name="expectedReturnAt"
+                    value={borrowReturnDate}
+                    onChange={setBorrowReturnDate}
                     required
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                    placeholder="Pick a return date"
                   />
                 </div>
               </div>
@@ -422,6 +426,7 @@ export default function ItemsPage() {
                   onClick={() => {
                     setShowBorrowModal(false)
                     setSelectedItem(null)
+                    setBorrowReturnDate("")
                   }}
                   className="px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors"
                 >
