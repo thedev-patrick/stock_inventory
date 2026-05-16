@@ -212,12 +212,12 @@ export default function Dashboard() {
                   )}
 
                   {isBorrowed && currentBorrow ? (
-                    <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3 mb-3 sm:mb-4">
-                      <p className="text-sm font-medium text-orange-800 dark:text-orange-200 truncate">
+                    <div className="bg-orange-700 rounded-lg p-3 mb-3 sm:mb-4">
+                      <p className="text-sm font-medium text-white truncate">
                         Borrowed by {currentBorrow.borrowerName}
                       </p>
-                      <p className="text-xs text-orange-600 dark:text-orange-300">
-                        Due: {new Date(currentBorrow.expectedReturnAt).toLocaleDateString()}
+                      <p className="text-xs text-white/80">
+                        Due: {new Date(currentBorrow.expectedReturnAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
                       </p>
                     </div>
                   ) : (

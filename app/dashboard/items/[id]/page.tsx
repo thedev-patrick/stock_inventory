@@ -187,13 +187,13 @@ export default function ItemDetail() {
         </div>
 
         {currentBorrow ? (
-          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+          <div className="bg-orange-700 rounded-lg p-4">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
               <div className="flex items-start gap-2 flex-1 min-w-0">
-                <Clock className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
+                <Clock className="w-5 h-5 text-white mt-0.5 flex-shrink-0" />
                 <div className="min-w-0">
-                  <p className="font-semibold text-orange-900 dark:text-orange-200">Currently Borrowed</p>
-                  <p className="text-sm text-orange-800 dark:text-orange-300 mt-1 flex items-center gap-1 break-words">
+                  <p className="font-semibold text-white">Currently Borrowed</p>
+                  <p className="text-sm text-white/90 mt-1 flex items-center gap-1 break-words">
                     <User className="w-3 h-3 flex-shrink-0" />
                     <span className="break-words">{currentBorrow.borrowerName}</span>
                   </p>
@@ -202,7 +202,7 @@ export default function ItemDetail() {
               <button
                 type="button"
                 onClick={() => handleMarkReturned(currentBorrow.id)}
-                className="flex items-center justify-center gap-2 bg-accent text-background px-3 sm:px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-colors whitespace-nowrap"
+                className="flex items-center justify-center gap-2 bg-white text-orange-700 px-3 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-50 transition-colors whitespace-nowrap"
               >
                 <CheckCircle className="w-4 h-4" />
                 Mark Returned
@@ -211,13 +211,13 @@ export default function ItemDetail() {
 
             <div className="space-y-2">
               {currentBorrow.borrowerEmail && (
-                <p className="text-sm text-orange-800 dark:text-orange-300 flex items-center gap-1 break-all">
+                <p className="text-sm text-white/90 flex items-center gap-1 break-all">
                   <Mail className="w-3 h-3 flex-shrink-0" />
                   {currentBorrow.borrowerEmail}
                 </p>
               )}
               {currentBorrow.borrowerPhone && (
-                <p className="text-sm text-orange-800 dark:text-orange-300 flex items-center gap-1">
+                <p className="text-sm text-white/90 flex items-center gap-1">
                   <Phone className="w-3 h-3 flex-shrink-0" />
                   {currentBorrow.borrowerPhone}
                 </p>
@@ -226,33 +226,33 @@ export default function ItemDetail() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 text-sm">
               <div>
-                <p className="text-orange-700 dark:text-orange-300 flex items-center gap-1 mb-1">
+                <p className="text-white/75 flex items-center gap-1 mb-1">
                   <Calendar className="w-3 h-3 flex-shrink-0" />
                   Borrowed
                 </p>
-                <p className="font-medium text-orange-900 dark:text-orange-200">{new Date(currentBorrow.borrowedAt).toLocaleDateString()}</p>
+                <p className="font-medium text-white">{new Date(currentBorrow.borrowedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
               </div>
               <div>
-                <p className="text-orange-700 dark:text-orange-300 flex items-center gap-1 mb-1">
+                <p className="text-white/75 flex items-center gap-1 mb-1">
                   <Calendar className="w-3 h-3 flex-shrink-0" />
                   Expected Return
                 </p>
-                <p className="font-medium text-orange-900 dark:text-orange-200">{new Date(currentBorrow.expectedReturnAt).toLocaleDateString()}</p>
+                <p className="font-medium text-white">{new Date(currentBorrow.expectedReturnAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
               </div>
             </div>
 
             {currentBorrow.notes && (
-              <p className="text-sm text-orange-800 dark:text-orange-300 mt-3 pt-3 border-t border-orange-200 dark:border-orange-800">
-                <span className="font-medium text-orange-900 dark:text-orange-200">Note:</span> {currentBorrow.notes}
+              <p className="text-sm text-white/90 mt-3 pt-3 border-t border-white/20">
+                <span className="font-medium text-white">Note:</span> {currentBorrow.notes}
               </p>
             )}
           </div>
         ) : (
-          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 flex items-center gap-3">
-            <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+          <div className="bg-green-700 rounded-lg p-4 flex items-center gap-3">
+            <CheckCircle className="w-5 h-5 text-white flex-shrink-0" />
             <div>
-              <p className="font-semibold text-green-900 dark:text-green-200">Available</p>
-              <p className="text-sm text-green-800 dark:text-green-300">This item is currently available</p>
+              <p className="font-semibold text-white">Available</p>
+              <p className="text-sm text-white/90">This item is currently available</p>
             </div>
           </div>
         )}
@@ -308,14 +308,14 @@ export default function ItemDetail() {
                       <Calendar className="w-3 h-3 flex-shrink-0" />
                       Borrowed
                     </p>
-                    <p className="font-medium text-foreground">{new Date(record.borrowedAt).toLocaleDateString()}</p>
+                    <p className="font-medium text-foreground">{new Date(record.borrowedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
                   </div>
                   <div>
                     <p className="text-foreground/70 flex items-center gap-1 mb-1">
                       <Calendar className="w-3 h-3 flex-shrink-0" />
                       Expected Return
                     </p>
-                    <p className="font-medium text-foreground">{new Date(record.expectedReturnAt).toLocaleDateString()}</p>
+                    <p className="font-medium text-foreground">{new Date(record.expectedReturnAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
                   </div>
                   {record.returnedAt && (
                     <div>
@@ -323,7 +323,7 @@ export default function ItemDetail() {
                         <Calendar className="w-3 h-3 flex-shrink-0" />
                         Returned
                       </p>
-                      <p className="font-medium text-foreground">{new Date(record.returnedAt).toLocaleDateString()}</p>
+                      <p className="font-medium text-foreground">{new Date(record.returnedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
                       {record.validatedBy && (
                         <p className="text-xs text-foreground/60 mt-1">{record.validatedBy}</p>
                       )}
