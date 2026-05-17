@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { signOut } from "next-auth/react"
 import { Package, Users, LogOut, Home, Menu, X } from "lucide-react"
+import { ThemeToggle } from "../components/theme-toggle"
 import Link from "next/link"
 
 export default function DashboardLayout({
@@ -55,17 +56,20 @@ export default function DashboardLayout({
             <Package className="h-6 w-6 text-accent mr-2" />
             <span className="text-lg font-bold text-foreground">Inventory</span>
           </div>
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-foreground hover:bg-accent/10 rounded-lg transition-colors"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
+          <div className="flex items-center gap-1">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-foreground hover:bg-accent/10 rounded-lg transition-colors"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
