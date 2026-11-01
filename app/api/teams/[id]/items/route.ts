@@ -37,9 +37,9 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Access denied" }, { status: 403 })
     }
 
-    const params = request.nextUrl.searchParams
-    const { page, limit, skip } = parsePaging(params)
-    const where = { teamId: id, ...itemFilter(params) }
+    const searchParams = request.nextUrl.searchParams
+    const { page, limit, skip } = parsePaging(searchParams)
+    const where = { teamId: id, ...itemFilter(searchParams) }
 
     const [items, total] = await Promise.all([
       prisma.item.findMany({
