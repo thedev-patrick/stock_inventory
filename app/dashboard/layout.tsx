@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { signOut } from "next-auth/react"
-import { Package, Users, LogOut, Home, Menu, X } from "lucide-react"
+import { Package, Users, LogOut, Home, Menu, X, Settings } from "lucide-react"
 import { ThemeToggle } from "../components/theme-toggle"
 import Link from "next/link"
 
@@ -45,6 +45,7 @@ export default function DashboardLayout({
     { name: "Dashboard", href: "/dashboard", icon: Home },
     { name: "My Items", href: "/dashboard/items", icon: Package },
     { name: "Teams", href: "/dashboard/teams", icon: Users },
+    { name: "Settings", href: "/dashboard/settings", icon: Settings },
   ]
 
   return (
