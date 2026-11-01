@@ -1,9 +1,10 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { parsePaging, itemFilter, openBorrowInclude } from "@/lib/pagination"
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -19,19 +20,34 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    // Get personal items only (not team items)
-    const items = await prisma.item.findMany({
-      where: { userId: user.id },
-      include: {
-        borrowRecords: {
-          orderBy: { borrowedAt: 'desc' },
-          take: 1
-        }
-      },
-      orderBy: { createdAt: 'desc' }
-    })
+    const params = request.nextUrl.searchParams
+    const { page, limit, skip } = parsePaging(params)
 
-    return NextResponse.json({ items })
+    // Personal items only (not team items)
+    const where = { userId: user.id, ...itemFilter(params) }
+
+    const [items, total, allTotal, borrowed] = await Promise.all([
+      prisma.item.findMany({
+        where,
+        include: openBorrowInclude,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit
+      }),
+      prisma.item.count({ where }),
+      prisma.item.count({ where: { userId: user.id } }),
+      prisma.item.count({
+        where: { userId: user.id, borrowRecords: { some: { returnedAt: null } } }
+      })
+    ])
+
+    return NextResponse.json({
+      items,
+      total,
+      page,
+      limit,
+      stats: { total: allTotal, borrowed, available: allTotal - borrowed }
+    })
   } catch (error) {
     console.error("Error fetching items:", error)
     return NextResponse.json(

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { parsePaging, itemFilter, openBorrowInclude } from "@/lib/pagination"
 
 interface RouteParams {
   params: Promise<{ id: string }>
@@ -36,18 +37,22 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Access denied" }, { status: 403 })
     }
 
-    const items = await prisma.item.findMany({
-      where: { teamId: id },
-      include: {
-        borrowRecords: {
-          where: { returnedAt: null },
-          orderBy: { borrowedAt: "desc" }
-        }
-      },
-      orderBy: { createdAt: "desc" }
-    })
+    const params = request.nextUrl.searchParams
+    const { page, limit, skip } = parsePaging(params)
+    const where = { teamId: id, ...itemFilter(params) }
 
-    return NextResponse.json(items)
+    const [items, total] = await Promise.all([
+      prisma.item.findMany({
+        where,
+        include: openBorrowInclude,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit
+      }),
+      prisma.item.count({ where })
+    ])
+
+    return NextResponse.json({ items, total, page, limit })
   } catch (error) {
     console.error("Error fetching team items:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

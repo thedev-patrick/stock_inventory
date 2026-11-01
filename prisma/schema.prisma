@@ -58,6 +58,7 @@ model TeamMember {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([teamId, userId])
+  @@index([userId])
 }
 
 model Item {
@@ -79,6 +80,8 @@ model Item {
 
   @@unique([name, userId])
   @@unique([name, teamId])
+  @@index([userId, createdAt])
+  @@index([teamId, createdAt])
 }
 
 model BorrowRecord {
@@ -95,4 +98,6 @@ model BorrowRecord {
   notes            String?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
+
+  @@index([itemId, returnedAt])
 }

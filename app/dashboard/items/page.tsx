@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Package, Plus, CheckCircle, Clock, Search } from "lucide-react"
 import DatePicker from "../../../components/date-picker"
+import Pagination from "../../../components/pagination"
+import { useDebouncedValue } from "@/lib/use-debounced-value"
+
+const PAGE_SIZE = 24
 
 type Item = {
   id: string
@@ -31,6 +35,10 @@ export default function ItemsPage() {
   const [showBorrowModal, setShowBorrowModal] = useState(false)
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
+  const debouncedSearch = useDebouncedValue(searchQuery)
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [stats, setStats] = useState({ total: 0, available: 0, borrowed: 0 })
   const [addItemError, setAddItemError] = useState<string | null>(null)
   const [borrowReturnDate, setBorrowReturnDate] = useState("")
 
@@ -40,13 +48,21 @@ export default function ItemsPage() {
     } else if (status === "authenticated") {
       fetchItems()
     }
-  }, [status, router])
+  }, [status, router, page, debouncedSearch])
+
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch])
 
   const fetchItems = async () => {
     try {
-      const res = await fetch("/api/items")
+      const query = new URLSearchParams({ page: String(page), limit: String(PAGE_SIZE) })
+      if (debouncedSearch.trim()) query.set("q", debouncedSearch.trim())
+      const res = await fetch(`/api/items?${query}`)
       const data = await res.json()
       setItems(data.items || [])
+      setTotal(data.total || 0)
+      if (data.stats) setStats(data.stats)
     } catch (error) {
       console.error("Error fetching items:", error)
     } finally {
@@ -122,20 +138,6 @@ export default function ItemsPage() {
     }
   }
 
-  const filteredItems = items.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.description?.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-
-  const availableItems = filteredItems.filter(item =>
-    !item.borrowRecords.some(record => record.returnedAt === null)
-  )
-
-  const borrowedItems = filteredItems.filter(item =>
-    item.borrowRecords.some(record => record.returnedAt === null)
-  )
-
   if (status === "loading") {
     return (
       <div className="flex items-center justify-center min-h-96">
@@ -180,7 +182,7 @@ export default function ItemsPage() {
           <div className="flex items-center gap-3">
             <Package className="h-6 w-6 sm:h-8 sm:w-8 text-accent flex-shrink-0" />
             <div>
-              <p className="text-xl sm:text-2xl font-bold text-foreground">{items.length}</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{stats.total}</p>
               <p className="text-xs sm:text-sm text-foreground/70">Total Items</p>
             </div>
           </div>
@@ -189,7 +191,7 @@ export default function ItemsPage() {
           <div className="flex items-center gap-3">
             <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 flex-shrink-0" />
             <div>
-              <p className="text-xl sm:text-2xl font-bold text-foreground">{availableItems.length}</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{stats.available}</p>
               <p className="text-xs sm:text-sm text-foreground/70">Available</p>
             </div>
           </div>
@@ -198,7 +200,7 @@ export default function ItemsPage() {
           <div className="flex items-center gap-3">
             <Clock className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600 flex-shrink-0" />
             <div>
-              <p className="text-xl sm:text-2xl font-bold text-foreground">{borrowedItems.length}</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{stats.borrowed}</p>
               <p className="text-xs sm:text-sm text-foreground/70">Borrowed</p>
             </div>
           </div>
@@ -207,7 +209,7 @@ export default function ItemsPage() {
 
       {/* Items Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {filteredItems.map((item) => {
+        {items.map((item) => {
           const isBorrowed = item.borrowRecords.some(record => record.returnedAt === null)
           const currentBorrow = item.borrowRecords.find(record => record.returnedAt === null)
 
@@ -270,7 +272,9 @@ export default function ItemsPage() {
         })}
       </div>
 
-      {filteredItems.length === 0 && !loading && (
+      <Pagination page={page} total={total} limit={PAGE_SIZE} onPageChange={setPage} />
+
+      {items.length === 0 && !loading && (
         <div className="text-center py-12">
           <Package className="h-12 w-12 text-accent/50 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-foreground mb-2">

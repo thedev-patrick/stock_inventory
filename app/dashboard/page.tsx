@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Package, CheckCircle, Clock, Search, Users, Building } from "lucide-react"
+import { useDebouncedValue } from "@/lib/use-debounced-value"
 
 type Item = {
   id: string
@@ -25,15 +26,9 @@ type Team = {
   name: string
   description?: string
   role: "OWNER" | "MEMBER"
-  members: Array<{
-    user: {
-      id: string
-      name?: string
-      email: string
-    }
-  }>
   _count: {
     items: number
+    members: number
   }
 }
 
@@ -44,6 +39,8 @@ export default function Dashboard() {
   const [teams, setTeams] = useState<Team[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
+  const debouncedSearch = useDebouncedValue(searchQuery)
+  const [stats, setStats] = useState({ total: 0, available: 0, borrowed: 0 })
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -51,17 +48,18 @@ export default function Dashboard() {
     } else if (status === "authenticated") {
       fetchData()
     }
-  }, [status, router])
+  }, [status, router, debouncedSearch])
 
   const fetchData = async () => {
     try {
       const [itemsRes, teamsRes] = await Promise.all([
-        fetch("/api/items"),
+        fetch(`/api/items?${new URLSearchParams({ limit: "6", ...(debouncedSearch.trim() && { q: debouncedSearch.trim() }) })}`),
         fetch("/api/teams")
       ])
       const itemsData = await itemsRes.json()
       const teamsData = await teamsRes.json()
       setItems(itemsData.items || [])
+      if (itemsData.stats) setStats(itemsData.stats)
       setTeams(teamsData || [])
     } catch (error) {
       console.error("Error fetching data:", error)
@@ -76,23 +74,6 @@ export default function Dashboard() {
     if (!latestRecord.returnedAt) return { text: "Borrowed", color: "bg-accent text-background", icon: Clock }
     return { text: "Available", color: "border border-foreground text-foreground", icon: CheckCircle }
   }
-
-  const filteredItems = items.filter(item => {
-    if (!searchQuery) return true
-    const query = searchQuery.toLowerCase()
-    return (
-      item.name.toLowerCase().includes(query) ||
-      (item.category && item.category.toLowerCase().includes(query))
-    )
-  })
-
-  const availableItems = filteredItems.filter(item =>
-    !item.borrowRecords.some(record => record.returnedAt === null)
-  )
-
-  const borrowedItems = filteredItems.filter(item =>
-    item.borrowRecords.some(record => record.returnedAt === null)
-  )
 
   if (status === "loading" || loading) {
     return (
@@ -129,7 +110,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2 sm:gap-3">
             <Package className="h-6 w-6 sm:h-8 sm:w-8 text-accent flex-shrink-0" />
             <div className="min-w-0">
-              <p className="text-xl sm:text-2xl font-bold text-foreground">{items.length}</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{stats.total}</p>
               <p className="text-xs sm:text-sm text-foreground/70 truncate">Total Items</p>
             </div>
           </div>
@@ -138,7 +119,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2 sm:gap-3">
             <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 flex-shrink-0" />
             <div className="min-w-0">
-              <p className="text-xl sm:text-2xl font-bold text-foreground">{availableItems.length}</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{stats.available}</p>
               <p className="text-xs sm:text-sm text-foreground/70 truncate">Available</p>
             </div>
           </div>
@@ -147,7 +128,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2 sm:gap-3">
             <Clock className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600 flex-shrink-0" />
             <div className="min-w-0">
-              <p className="text-xl sm:text-2xl font-bold text-foreground">{borrowedItems.length}</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{stats.borrowed}</p>
               <p className="text-xs sm:text-sm text-foreground/70 truncate">Borrowed</p>
             </div>
           </div>
@@ -166,7 +147,7 @@ export default function Dashboard() {
       {/* Recent Items */}
       <div className="space-y-3 sm:space-y-4">
         <h2 className="text-lg sm:text-xl font-semibold text-foreground">Recent Items</h2>
-        {filteredItems.length === 0 ? (
+        {items.length === 0 ? (
           <div className="text-center py-12">
             <Package className="h-12 w-12 text-accent/50 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-foreground mb-2">
@@ -181,7 +162,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {filteredItems.slice(0, 6).map((item) => {
+            {items.map((item) => {
               const isBorrowed = item.borrowRecords.some(record => record.returnedAt === null)
               const currentBorrow = item.borrowRecords.find(record => record.returnedAt === null)
 
@@ -278,7 +259,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between text-xs sm:text-sm text-foreground/60">
                   <div className="flex items-center gap-1">
                     <Users className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{team.members.length} members</span>
+                    <span className="truncate">{team._count.members} members</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Package className="h-4 w-4 flex-shrink-0" />

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { parsePaging } from "@/lib/pagination"
 
 export async function POST(request: NextRequest) {
   try {
@@ -74,71 +75,49 @@ export async function GET(request: NextRequest) {
     }
 
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-      include: {
-        ownedTeams: {
-          include: {
-            members: {
-              include: {
-                user: {
-                  select: { id: true, name: true, email: true }
-                }
-              }
-            },
-            _count: {
-              select: { items: true }
-            }
-          }
-        },
-        teamMemberships: {
-          include: {
-            team: {
-              include: {
-                owner: {
-                  select: { id: true, name: true, email: true }
-                },
-                members: {
-                  include: {
-                    user: {
-                      select: { id: true, name: true, email: true }
-                    }
-                  }
-                },
-                _count: {
-                  select: { items: true }
-                }
-              }
-            }
-          }
-        }
-      }
+      where: { email: session.user.email }
     })
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    // Combine owned teams and member teams, avoiding duplicates
-    const teamMap = new Map()
+    const params = request.nextUrl.searchParams
+    const q = params.get("q")?.trim()
+    // Paginated when ?page is given (total in X-Total-Count); otherwise the full, lightweight list
+    const paged = params.has("page")
+    const { limit, skip } = parsePaging(params, { defaultLimit: 12 })
+    const where = {
+      members: { some: { userId: user.id } },
+      ...(q ? { name: { contains: q, mode: "insensitive" as const } } : {})
+    }
 
-    // Add owned teams
-    user.ownedTeams.forEach(team => {
-      teamMap.set(team.id, { ...team, role: "OWNER" })
+    // Counts only: member lists are fetched per team from /api/teams/[id]/members
+    const teams = await prisma.team.findMany({
+      where,
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        ownerId: true,
+        members: {
+          where: { userId: user.id },
+          select: { role: true }
+        },
+        _count: { select: { items: true, members: true } }
+      },
+      orderBy: { updatedAt: "desc" },
+      ...(paged ? { skip, take: limit } : {})
     })
+    const total = paged ? await prisma.team.count({ where }) : teams.length
 
-    // Add member teams (skip if already added as owner)
-    user.teamMemberships.forEach(membership => {
-      if (!teamMap.has(membership.team.id)) {
-        teamMap.set(membership.team.id, {
-          ...membership.team,
-          role: membership.role
-        })
-      }
-    })
-
-    const teams = Array.from(teamMap.values())
-
-    return NextResponse.json(teams)
+    return NextResponse.json(
+      teams.map(({ members, ownerId, ...team }) => ({
+        ...team,
+        role: ownerId === user.id ? "OWNER" : members[0]?.role ?? "MEMBER"
+      })),
+      { headers: { "X-Total-Count": String(total) } }
+    )
   } catch (error) {
     console.error("Error fetching teams:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

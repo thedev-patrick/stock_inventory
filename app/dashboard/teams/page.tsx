@@ -3,21 +3,19 @@
 import { useState, useEffect } from "react"
 import { Plus, Users, Package, Search } from "lucide-react"
 import Link from "next/link"
+import Pagination from "../../../components/pagination"
+import { useDebouncedValue } from "@/lib/use-debounced-value"
+
+const PAGE_SIZE = 12
 
 interface Team {
   id: string
   name: string
   description?: string
   role: "OWNER" | "MEMBER"
-  members: Array<{
-    user: {
-      id: string
-      name?: string
-      email: string
-    }
-  }>
   _count: {
     items: number
+    members: number
   }
 }
 
@@ -28,18 +26,31 @@ export default function TeamsPage() {
   const [newTeamName, setNewTeamName] = useState("")
   const [newTeamDescription, setNewTeamDescription] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
+  const debouncedSearch = useDebouncedValue(searchQuery)
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [hasAnyTeams, setHasAnyTeams] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch])
+
+  useEffect(() => {
     fetchTeams()
-  }, [])
+  }, [page, debouncedSearch])
 
   const fetchTeams = async () => {
     try {
-      const response = await fetch("/api/teams")
+      const query = new URLSearchParams({ page: String(page), limit: String(PAGE_SIZE) })
+      if (debouncedSearch.trim()) query.set("q", debouncedSearch.trim())
+      const response = await fetch(`/api/teams?${query}`)
       if (response.ok) {
         const data = await response.json()
+        const count = Number(response.headers.get("X-Total-Count")) || data.length
         setTeams(data)
+        setTotal(count)
+        if (!debouncedSearch.trim()) setHasAnyTeams(count > 0)
       }
     } catch (error) {
       console.error("Error fetching teams:", error)
@@ -164,7 +175,7 @@ export default function TeamsPage() {
       )}
 
       {/* Search Bar */}
-      {teams.length > 0 && (
+      {(hasAnyTeams || teams.length > 0) && (
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-foreground/40" />
           <input
@@ -177,7 +188,9 @@ export default function TeamsPage() {
         </div>
       )}
 
-      {teams.length === 0 ? (
+      {teams.length === 0 && hasAnyTeams ? (
+        <p className="text-center text-foreground/70 py-12">No teams match your search</p>
+      ) : teams.length === 0 ? (
         <div className="text-center py-12">
           <Users className="h-12 w-12 text-accent/50 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-foreground mb-2">No teams yet</h3>
@@ -194,9 +207,7 @@ export default function TeamsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {teams.filter((team) =>
-            team.name.toLowerCase().includes(searchQuery.toLowerCase())
-          ).map((team) => (
+          {teams.map((team) => (
             <Link
               key={team.id}
               href={`/dashboard/teams/${team.id}`}
@@ -223,7 +234,7 @@ export default function TeamsPage() {
               <div className="flex items-center justify-between text-xs sm:text-sm text-foreground/60">
                 <div className="flex items-center gap-1">
                   <Users className="h-4 w-4 flex-shrink-0" />
-                  <span className="truncate">{team.members.length} members</span>
+                  <span className="truncate">{team._count.members} members</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Package className="h-4 w-4 flex-shrink-0" />
@@ -234,6 +245,8 @@ export default function TeamsPage() {
           ))}
         </div>
       )}
+
+      <Pagination page={page} total={total} limit={PAGE_SIZE} onPageChange={setPage} />
     </div>
   )
 }

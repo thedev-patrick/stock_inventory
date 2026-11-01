@@ -4,7 +4,12 @@ import { useState, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import ConfirmModal from "../../../components/confirm-modal"
-import { Plus, Users, Package, Mail, Trash2, Crown, User, Search } from "lucide-react"
+import Pagination from "../../../../components/pagination"
+import { useDebouncedValue } from "@/lib/use-debounced-value"
+import { Plus, Users, Package, Mail, Trash2, Crown, User, Search, Pencil } from "lucide-react"
+
+const MEMBERS_PAGE_SIZE = 20
+const ITEMS_PAGE_SIZE = 20
 
 interface Team {
   id: string
@@ -15,26 +20,32 @@ interface Team {
     name?: string
     email: string
   }
-  members: Array<{
-    user: {
-      id: string
-      name?: string
-      email: string
-    }
-  }>
-  items: Array<{
-    id: string
-    name: string
-    description?: string
-    category?: string
-    borrowRecords: Array<{
-      id: string
-      borrowerName: string
-      returnedAt: null
-      validatedBy: string | null
-    }>
-  }>
+  _count: {
+    members: number
+    items: number
+  }
   userRole: "OWNER" | "MEMBER"
+}
+
+interface Member {
+  user: {
+    id: string
+    name?: string
+    email: string
+  }
+}
+
+interface TeamItem {
+  id: string
+  name: string
+  description?: string
+  category?: string
+  borrowRecords: Array<{
+    id: string
+    borrowerName: string
+    returnedAt: null
+    validatedBy: string | null
+  }>
 }
 
 export default function TeamPage() {
@@ -43,6 +54,14 @@ export default function TeamPage() {
   const teamId = params.id as string
 
   const [team, setTeam] = useState<Team | null>(null)
+  const [members, setMembers] = useState<Member[]>([])
+  const [membersTotal, setMembersTotal] = useState(0)
+  const [membersPage, setMembersPage] = useState(1)
+  const [memberSearch, setMemberSearch] = useState("")
+  const debouncedMemberSearch = useDebouncedValue(memberSearch)
+  const [items, setItems] = useState<TeamItem[]>([])
+  const [itemsTotal, setItemsTotal] = useState(0)
+  const [itemsPage, setItemsPage] = useState(1)
   const [loading, setLoading] = useState(true)
   const [showInviteForm, setShowInviteForm] = useState(false)
   const [showAddItemForm, setShowAddItemForm] = useState(false)
@@ -51,6 +70,7 @@ export default function TeamPage() {
   const [searchingUsers, setSearchingUsers] = useState(false)
   const [searchUsersError, setSearchUsersError] = useState<string | null>(null)
   const [itemSearchQuery, setItemSearchQuery] = useState("")
+  const debouncedItemSearch = useDebouncedValue(itemSearchQuery)
   const [itemError, setItemError] = useState<string | null>(null)
   const [newItem, setNewItem] = useState({
     name: "",
@@ -64,10 +84,31 @@ export default function TeamPage() {
     description: string
   } | null>(null)
   const [deleteLoading, setDeleteLoading] = useState(false)
+  const [editing, setEditing] = useState(false)
+  const [editName, setEditName] = useState("")
+  const [editDescription, setEditDescription] = useState("")
+  const [editError, setEditError] = useState<string | null>(null)
+  const [editSaving, setEditSaving] = useState(false)
 
   useEffect(() => {
     fetchTeam()
   }, [teamId])
+
+  useEffect(() => {
+    setMembersPage(1)
+  }, [debouncedMemberSearch])
+
+  useEffect(() => {
+    setItemsPage(1)
+  }, [debouncedItemSearch])
+
+  useEffect(() => {
+    fetchMembers()
+  }, [teamId, membersPage, debouncedMemberSearch])
+
+  useEffect(() => {
+    fetchItems()
+  }, [teamId, itemsPage, debouncedItemSearch])
 
   useEffect(() => {
     const query = inviteEmail.trim()
@@ -83,7 +124,7 @@ export default function TeamPage() {
       setSearchUsersError(null)
 
       try {
-        const response = await fetch(`/api/users?search=${encodeURIComponent(query)}`)
+        const response = await fetch(`/api/users?search=${encodeURIComponent(query)}&teamId=${teamId}`)
         if (!response.ok) {
           throw new Error("Unable to search users")
         }
@@ -118,6 +159,36 @@ export default function TeamPage() {
     }
   }
 
+  const fetchMembers = async () => {
+    try {
+      const query = new URLSearchParams({ page: String(membersPage), limit: String(MEMBERS_PAGE_SIZE) })
+      if (debouncedMemberSearch.trim()) query.set("q", debouncedMemberSearch.trim())
+      const response = await fetch(`/api/teams/${teamId}/members?${query}`)
+      if (response.ok) {
+        const data = await response.json()
+        setMembers(data.members)
+        setMembersTotal(data.total)
+      }
+    } catch (error) {
+      console.error("Error fetching members:", error)
+    }
+  }
+
+  const fetchItems = async () => {
+    try {
+      const query = new URLSearchParams({ page: String(itemsPage), limit: String(ITEMS_PAGE_SIZE) })
+      if (debouncedItemSearch.trim()) query.set("q", debouncedItemSearch.trim())
+      const response = await fetch(`/api/teams/${teamId}/items?${query}`)
+      if (response.ok) {
+        const data = await response.json()
+        setItems(data.items)
+        setItemsTotal(data.total)
+      }
+    } catch (error) {
+      console.error("Error fetching items:", error)
+    }
+  }
+
   const inviteMember = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!inviteEmail.trim()) return
@@ -135,6 +206,7 @@ export default function TeamPage() {
         setSearchUsersError(null)
         setShowInviteForm(false)
         fetchTeam()
+        fetchMembers()
       }
     } catch (error) {
       console.error("Error inviting member:", error)
@@ -173,6 +245,7 @@ export default function TeamPage() {
         setShowAddItemForm(false)
         setItemError(null)
         fetchTeam()
+        fetchItems()
       } else {
         const data = await response.json()
         setItemError(data.error || "Failed to add item")
@@ -180,6 +253,44 @@ export default function TeamPage() {
     } catch (error) {
       console.error("Error adding item:", error)
       setItemError("Failed to add item")
+    }
+  }
+
+  const startEditing = () => {
+    if (!team) return
+    setEditName(team.name)
+    setEditDescription(team.description || "")
+    setEditError(null)
+    setEditing(true)
+  }
+
+  const saveTeam = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editName.trim()) return
+
+    setEditSaving(true)
+    setEditError(null)
+
+    try {
+      const response = await fetch(`/api/teams/${teamId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: editName, description: editDescription }),
+      })
+
+      if (response.ok) {
+        const updated = await response.json()
+        setTeam((prev) => (prev ? { ...prev, name: updated.name, description: updated.description ?? undefined } : prev))
+        setEditing(false)
+      } else {
+        const data = await response.json()
+        setEditError(data.error || "Failed to update team")
+      }
+    } catch (error) {
+      console.error("Error updating team:", error)
+      setEditError("Failed to update team")
+    } finally {
+      setEditSaving(false)
     }
   }
 
@@ -204,6 +315,7 @@ export default function TeamPage() {
 
         if (response.ok) {
           fetchTeam()
+          fetchMembers()
         }
       }
 
@@ -241,22 +353,62 @@ export default function TeamPage() {
     )
   }
 
-  const existingMemberEmails = [
-    team.owner.email,
-    ...team.members.map((member) => member.user.email),
-  ]
-
-  const filteredSuggestedUsers = suggestedUsers.filter(
-    (user) => !existingMemberEmails.includes(user.email)
-  )
+  // The users endpoint already excludes existing members when given a teamId
+  const filteredSuggestedUsers = suggestedUsers
 
   return (
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground break-words">{team.name}</h1>
-          {team.description && (
-            <p className="text-foreground/70 mt-1 text-sm sm:text-base">{team.description}</p>
+          {editing ? (
+            <form onSubmit={saveTeam} className="space-y-3 mb-2">
+              {editError && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
+                  {editError}
+                </div>
+              )}
+              <input
+                type="text"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                placeholder="Team name"
+                aria-label="Team name"
+                required
+                autoFocus
+                className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground text-lg focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+              <textarea
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+                placeholder="Description (optional)"
+                aria-label="Team description"
+                rows={2}
+                className="w-full px-3 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={editSaving}
+                  className="bg-accent text-background px-4 py-2 rounded-lg hover:opacity-90 transition-colors disabled:opacity-50"
+                >
+                  {editSaving ? "Saving..." : "Save"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditing(false)}
+                  className="px-4 py-2 border border-accent/20 rounded-lg text-foreground hover:bg-accent/10 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground break-words">{team.name}</h1>
+              {team.description && (
+                <p className="text-foreground/70 mt-1 text-sm sm:text-base">{team.description}</p>
+              )}
+            </>
           )}
           <div className="flex flex-wrap items-center gap-2 mt-2">
             <span className="text-xs sm:text-sm px-2 py-1 bg-accent/10 text-accent rounded-full">
@@ -269,6 +421,18 @@ export default function TeamPage() {
         </div>
 
         {team.userRole === "OWNER" && (
+          <div className="flex gap-2 flex-shrink-0">
+          {!editing && (
+            <button
+              type="button"
+              onClick={startEditing}
+              className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 border border-accent/20 text-foreground rounded-lg hover:bg-accent/10 transition-colors text-sm whitespace-nowrap"
+            >
+              <Pencil className="h-4 w-4" />
+              <span className="hidden sm:inline">Edit Team</span>
+              <span className="sm:hidden">Edit</span>
+            </button>
+          )}
           <button
             type="button"
             onClick={deleteTeam}
@@ -278,6 +442,7 @@ export default function TeamPage() {
             <span className="hidden sm:inline">Delete Team</span>
             <span className="sm:hidden">Delete</span>
           </button>
+          </div>
         )}
       </div>
 
@@ -287,7 +452,7 @@ export default function TeamPage() {
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
               <Users className="h-5 w-5" />
-              Team Members ({team.members.filter(member => member.user.id !== team.owner.id).length})
+              Team Members ({Math.max(0, team._count.members - 1)})
             </h2>
             {team.userRole === "OWNER" && (
               <button
@@ -372,8 +537,20 @@ export default function TeamPage() {
             </div>
 
             {/* Show other members */}
-            {team.members
-              .filter(member => member.user.id !== team.owner.id)
+            {team._count.members > 21 && (
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-foreground/40" />
+                <input
+                  type="text"
+                  value={memberSearch}
+                  onChange={(e) => setMemberSearch(e.target.value)}
+                  placeholder="Search members by name or email..."
+                  className="w-full pl-10 pr-4 py-2 border border-accent/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
+            )}
+
+            {members
               .map((member) => {
               const isCurrentUser = member.user.id === "current-user-id" // TODO: Get from session
 
@@ -405,6 +582,12 @@ export default function TeamPage() {
                 </div>
               )
             })}
+
+            {members.length === 0 && memberSearch.trim() && (
+              <p className="text-foreground/60 text-center py-4">No members match your search</p>
+            )}
+
+            <Pagination page={membersPage} total={membersTotal} limit={MEMBERS_PAGE_SIZE} onPageChange={setMembersPage} />
           </div>
         </div>
 
@@ -413,7 +596,7 @@ export default function TeamPage() {
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
               <Package className="h-5 w-5" />
-              Team Items ({team.items.length})
+              Team Items ({team._count.items})
             </h2>
             <button
               type="button"
@@ -481,7 +664,7 @@ export default function TeamPage() {
             </form>
           )}
 
-          {team.items.length === 0 ? (
+          {team._count.items === 0 ? (
             <p className="text-foreground/60 text-center py-8">
               No items in this team yet. Add your first item!
             </p>
@@ -500,11 +683,7 @@ export default function TeamPage() {
               </div>
 
               <div className="space-y-3">
-                {team.items
-                  .filter((item) =>
-                    item.name.toLowerCase().includes(itemSearchQuery.toLowerCase()) ||
-                    item.category?.toLowerCase().includes(itemSearchQuery.toLowerCase())
-                  )
+                {items
                   .map((item) => (
                     <Link
                       key={item.id}
@@ -531,7 +710,11 @@ export default function TeamPage() {
                       </div>
                     </Link>
                   ))}
+                {items.length === 0 && (
+                  <p className="text-foreground/60 text-center py-4">No items match your search</p>
+                )}
               </div>
+              <Pagination page={itemsPage} total={itemsTotal} limit={ITEMS_PAGE_SIZE} onPageChange={setItemsPage} />
             </>
           )}
         </div>

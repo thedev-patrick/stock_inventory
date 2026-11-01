@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
 
     const url = new URL(request.url)
     const search = url.searchParams.get("search")?.trim()
+    const teamId = url.searchParams.get("teamId")
 
     if (!search || search.length < 2) {
       return NextResponse.json([])
@@ -23,9 +24,11 @@ export async function GET(request: NextRequest) {
           contains: search,
           mode: "insensitive",
         },
-        NOT: {
-          email: session.user.email,
-        },
+        NOT: [
+          { email: session.user.email },
+          // Hide people who are already on the team being invited to
+          ...(teamId ? [{ teamMemberships: { some: { teamId } } }] : []),
+        ],
       },
       select: {
         id: true,

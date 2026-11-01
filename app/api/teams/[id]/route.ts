@@ -42,24 +42,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         owner: {
           select: { id: true, name: true, email: true }
         },
-        members: {
-          include: {
-            user: {
-              select: { id: true, name: true, email: true }
-            }
-          }
-        },
-        items: {
-          include: {
-            borrowRecords: {
-              where: { returnedAt: null },
-              orderBy: { borrowedAt: "desc" }
-            }
-          },
-          orderBy: { createdAt: "desc" }
-        },
         _count: {
-          select: { items: true }
+          select: { items: true, members: true }
         }
       }
     })
@@ -117,6 +101,66 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ message: "Team deleted successfully" })
   } catch (error) {
     console.error("Error deleting team:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  }
+}
+
+export async function PATCH(request: NextRequest, { params }: RouteParams) {
+  try {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const { id } = await params
+    const { name, description } = await request.json()
+
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
+      return NextResponse.json({ error: "Team name is required" }, { status: 400 })
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email }
+    })
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
+
+    const team = await prisma.team.findUnique({
+      where: { id },
+      select: { ownerId: true }
+    })
+
+    if (!team) {
+      return NextResponse.json({ error: "Team not found" }, { status: 404 })
+    }
+
+    if (team.ownerId !== user.id) {
+      return NextResponse.json({ error: "Only team owners can edit teams" }, { status: 403 })
+    }
+
+    const updated = await prisma.team.update({
+      where: { id },
+      data: {
+        name: name.trim(),
+        description: typeof description === "string" ? description.trim() || null : null
+      },
+      select: { id: true, name: true, description: true }
+    })
+
+    return NextResponse.json(updated)
+  } catch (error: any) {
+    console.error("Error updating team:", error)
+
+    // Unique on [name, ownerId]
+    if (error.code === "P2002") {
+      return NextResponse.json(
+        { error: "You already have a team with this name" },
+        { status: 409 }
+      )
+    }
+
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
