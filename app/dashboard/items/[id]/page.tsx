@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import ConfirmModal from "../../../components/confirm-modal"
 import DatePicker from "../../../../components/date-picker"
+import BorrowHistory from "../../../../components/borrow-history"
 import { ArrowLeft, Edit2, Trash2, Package, User, Mail, Phone, Calendar, FileText, CheckCircle, Clock, X } from "lucide-react"
 
 type BorrowRecord = {
@@ -37,6 +38,7 @@ export default function ItemDetail() {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
+  const [historyKey, setHistoryKey] = useState(0)
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -52,6 +54,7 @@ export default function ItemDetail() {
       if (res.ok) {
         const data = await res.json()
         setItem(data.item)
+        setHistoryKey((k) => k + 1)
       } else {
         router.push("/dashboard")
       }
@@ -261,85 +264,7 @@ export default function ItemDetail() {
       {/* Borrow History Section */}
       <div className="bg-background border border-accent/20 rounded-lg p-4 sm:p-6">
         <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4">Borrow History</h2>
-        {item.borrowRecords.length === 0 ? (
-          <div className="text-center py-8">
-            <Clock className="h-10 w-10 sm:h-12 sm:w-12 text-accent/50 mx-auto mb-3" />
-            <p className="text-foreground/70 text-sm sm:text-base">No borrow history yet</p>
-          </div>
-        ) : (
-          <div className="space-y-3 sm:space-y-4">
-            {item.borrowRecords.map((record) => (
-              <div key={record.id} className="border border-accent/20 rounded-lg p-4 hover:border-accent/40 transition-colors">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
-                  <div className="flex items-start gap-2 flex-1 min-w-0">
-                    <User className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-foreground break-words">{record.borrowerName}</p>
-                      {record.borrowerEmail && (
-                        <p className="text-sm text-foreground/70 flex items-center gap-1 mt-1 break-all">
-                          <Mail className="w-3 h-3 flex-shrink-0" />
-                          {record.borrowerEmail}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <span className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium flex-shrink-0 ${
-                    record.returnedAt
-                      ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
-                      : "bg-accent text-background"
-                  }`}>
-                    {record.returnedAt ? (
-                      <>
-                        <CheckCircle className="w-3 h-3" />
-                        Returned
-                      </>
-                    ) : (
-                      <>
-                        <Clock className="w-3 h-3" />
-                        Borrowed
-                      </>
-                    )}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-                  <div>
-                    <p className="text-foreground/70 flex items-center gap-1 mb-1">
-                      <Calendar className="w-3 h-3 flex-shrink-0" />
-                      Borrowed
-                    </p>
-                    <p className="font-medium text-foreground">{new Date(record.borrowedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
-                  </div>
-                  <div>
-                    <p className="text-foreground/70 flex items-center gap-1 mb-1">
-                      <Calendar className="w-3 h-3 flex-shrink-0" />
-                      Expected Return
-                    </p>
-                    <p className="font-medium text-foreground">{new Date(record.expectedReturnAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
-                  </div>
-                  {record.returnedAt && (
-                    <div>
-                      <p className="text-foreground/70 flex items-center gap-1 mb-1">
-                        <Calendar className="w-3 h-3 flex-shrink-0" />
-                        Returned
-                      </p>
-                      <p className="font-medium text-foreground">{new Date(record.returnedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
-                      {record.validatedBy && (
-                        <p className="text-xs text-foreground/60 mt-1">{record.validatedBy}</p>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {record.notes && (
-                  <p className="text-sm text-foreground/70 mt-3 pt-3 border-t border-accent/20">
-                    <span className="font-medium text-foreground">Note:</span> {record.notes}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+        <BorrowHistory itemId={item.id} refreshKey={historyKey} />
       </div>
 
       {showBorrowModal && (
