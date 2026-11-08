@@ -7,8 +7,11 @@ async function authorizeItemAccess(itemId: string, userId: string) {
   const item = await prisma.item.findUnique({
     where: { id: itemId },
     include: {
+      // Full history is served (paginated) by /api/items/[id]/history
       borrowRecords: {
-        orderBy: { borrowedAt: 'desc' }
+        where: { returnedAt: null },
+        orderBy: { borrowedAt: 'desc' },
+        take: 1
       }
     }
   })

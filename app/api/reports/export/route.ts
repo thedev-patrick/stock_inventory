@@ -26,7 +26,18 @@ function escapeCell(value: string): string {
 }
 
 function formatDate(date: Date | null): string {
-  return date ? date.toISOString() : ""
+  if (!date) return ""
+  // e.g. "Nov 8, 2026, 3:45 PM UTC"
+  return (
+    new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "UTC",
+    }).format(date) + " UTC"
+  )
 }
 
 // scope: "all" (default) | "personal" | <teamId>
